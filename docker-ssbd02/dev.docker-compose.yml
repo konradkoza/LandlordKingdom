@@ -12,36 +12,36 @@ services:
       - my_network
     volumes:
       - ./initDb.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./initDb.sql:/docker-entrypoint-initdb.d/init2.sql
+#      - ./initDb.sql:/docker-entrypoint-initdb.d/init2.sql
 
-  tomcat:
-    build:
-      context: ..
-      dockerfile: docker-ssbd02/DockerfileTomcat
-    container_name: ssbd02-tomcat
-    restart: always
-    ports:
-      - "8080:8080"
-    networks:
-      - my_network
-    environment:
-      - ACTIVE_PROFILE=dev
-    depends_on:
-      - db
-    volumes:
-      - ./privateJwt-key.pem:/etc/ssbd02/privateJwt-key.pem
-      - ./privateRefresh-key.pem:/etc/ssbd02/privateRefresh-key.pem
+#  tomcat:
+#    build:
+#      context: ..
+#      dockerfile: docker-ssbd02/DockerfileTomcat
+#    container_name: ssbd02-tomcat
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - my_network
+#    environment:
+#      - ACTIVE_PROFILE=dev
+#    depends_on:
+#      - db
+#    volumes:
+#      - ./privateJwt-key.pem:/etc/ssbd02/privateJwt-key.pem
+#      - ./privateRefresh-key.pem:/etc/ssbd02/privateRefresh-key.pem
 
-  nginx:
-    image: nginx:1.21.3
-    container_name: ssbd02-nginx
-    restart: always
-    ports:
-      - "9090:80"
-    networks:
-      - my_network
-    volumes:
-      - ./nginxdev.conf:/etc/nginx/nginx.conf
+#  nginx:
+#    image: nginx:1.21.3
+#    container_name: ssbd02-nginx
+#    restart: always
+#    ports:
+#      - "9090:80"
+#    networks:
+#      - my_network
+#    volumes:
+#      - ./nginxdev.conf:/etc/nginx/nginx.conf
 
   smtp4dev:
     image: rnwood/smtp4dev

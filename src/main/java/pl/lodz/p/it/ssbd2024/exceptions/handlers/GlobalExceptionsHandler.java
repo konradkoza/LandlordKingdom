@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2024.exceptions.handlers;
 
-import com.atomikos.icatch.RollbackException;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -111,7 +111,7 @@ public class GlobalExceptionsHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ExceptionResponse(ExceptionMessages.JDBC_ERROR, ErrorCodes.INTERNAL_SERVER_ERROR));
     }
 
-    @ExceptionHandler(RollbackException.class)
+    @ExceptionHandler(RollbackException.class) // todo: is this correct exception in spring boot??
     ResponseEntity<ExceptionResponse> handleRollbackException(RollbackException e) {
         log.error("Uncaught exception", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ExceptionResponse(ExceptionMessages.ROLLBACK, ErrorCodes.ROLLBACK));

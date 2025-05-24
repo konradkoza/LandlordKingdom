@@ -20,12 +20,13 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class KeyReader {
     public static PrivateKey readPrivateJwtKey(String privateKeyPath) throws IOException {
-        try (FileReader reader = new FileReader(privateKeyPath);
+        ResourceLoader resourceLoader = new DefaultResourceLoader();
+        Resource resource = resourceLoader.getResource(privateKeyPath);
+        InputStream inputStream = resource.getInputStream();
+        try (InputStreamReader reader = new InputStreamReader(inputStream);
              PemReader pemReader = new PemReader(reader)) {
             KeyFactory factory = KeyFactory.getInstance("RSA");
-            PemObject pemObject = pemReader.readPemObject();
-            byte[] content = pemObject.getContent();
-            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(content);
+            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(pemReader.readPemObject().getContent());
             return factory.generatePrivate(privKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);

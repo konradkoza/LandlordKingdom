@@ -19,31 +19,32 @@ oauth2:
     url: http://localhost:3000/auth/google/callback
 
 jwt:
-  privateKeyFilePath: /etc/ssbd02/privateJwt-key.pem
+  privateKeyFilePath: classpath:keys/privateJwt-key.pem
   publicKeyFilePath: classpath:keys/publicJwt-key.pem
   expiration: 1
 
 refreshToken:
-  privateKeyFilePath: /etc/ssbd02/privateRefresh-key.pem
+  privateKeyFilePath: classpath:keys/privateRefresh-key.pem
   publicKeyFilePath: classpath:keys/publicRefresh-key.pem
   expiration: 24
 
-db:
-  driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://db:5432/ssbd02
-  defaultTransactionIsolation: 2
-  admin:
-    username: ssbd02admin
-    password: adminP@ssw0rd
-  auth:
-    username: ssbd02auth
-    password: authP@ssw0rd
-  mok:
-    username: ssbd02mok
-    password: mokP@ssw0rd
-  mol:
-    username: ssbd02mol
-    password: molP@ssw0rd
+
+#db:
+#  driverClassName: org.postgresql.Driver
+#  url: jdbc:postgresql://db:5432/ssbd02
+#  defaultTransactionIsolation: 2
+#  admin:
+#    username: ssbd02admin
+#    password: adminP@ssw0rd
+#  auth:
+#    username: ssbd02auth
+#    password: authP@ssw0rd
+#  mok:
+#    username: ssbd02mok
+#    password: mokP@ssw0rd
+#  mol:
+#    username: ssbd02mol
+#    password: molP@ssw0rd
 
 login:
   maxAttempts: 3
@@ -61,9 +62,9 @@ mail:
   transfer:
     protocol: smtp
 
-scheduler:
-  threadPool:
-    size: 5
+#scheduler:
+#  threadPool:
+#    size: 5
 
 account:
   removeUnverifiedAccountAfterHours: 24
@@ -71,3 +72,30 @@ account:
 
 transaction:
   timeout: 8
+
+
+admin:
+  datasource:
+    jdbcUrl: jdbc:postgresql://localhost:5432/ssbd02
+    driver-class-name: org.postgresql.Driver
+    username: ssbd02admin
+    password: adminP@ssw0rd
+    transaction-isolation: TRANSACTION_READ_COMMITTED
+    auto-commit: false
+
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 5
+  mail:
+    host: smtp4dev
+    port: 25
+    username: user
+    password: user
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
