@@ -1,3 +1,5 @@
+
+
 app:
   url: http://localhost:3000
 
@@ -76,7 +78,7 @@ transaction:
 
 admin:
   datasource:
-    jdbcUrl: jdbc:postgresql://localhost:5432/ssbd02
+    jdbcUrl: jdbc:postgresql://db:5432/ssbd02
     driver-class-name: org.postgresql.Driver
     username: ssbd02admin
     password: adminP@ssw0rd
@@ -99,3 +101,6 @@ spring:
           auth: false
           starttls:
             enable: false
+server:
+  servlet:
+    context-path: /ssbd02

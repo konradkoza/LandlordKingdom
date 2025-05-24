@@ -1,9 +1,10 @@
 FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 COPY ../pom.xml pom.xml
-RUN mvn clean package -Dmaven.test.skip -Dmaven.main.skip && rm -rf target/
 COPY ../src src
 RUN mvn clean package -Dmaven.test.skip
 
-FROM tomcat:10.1.20-jdk21
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ssbd02.war
+FROM openjdk:21-jdk-slim
+COPY --from=build /app/target/*.jar /run/app/ssbd02.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/run/app/ssbd02.jar"]
