@@ -31,23 +31,6 @@ refreshToken:
   expiration: 24
 
 
-#db:
-#  driverClassName: org.postgresql.Driver
-#  url: jdbc:postgresql://db:5432/ssbd02
-#  defaultTransactionIsolation: 2
-#  admin:
-#    username: ssbd02admin
-#    password: adminP@ssw0rd
-#  auth:
-#    username: ssbd02auth
-#    password: authP@ssw0rd
-#  mok:
-#    username: ssbd02mok
-#    password: mokP@ssw0rd
-#  mol:
-#    username: ssbd02mol
-#    password: molP@ssw0rd
-
 login:
   maxAttempts: 3
   timeOut: 300
@@ -64,9 +47,6 @@ mail:
   transfer:
     protocol: smtp
 
-#scheduler:
-#  threadPool:
-#    size: 5
 
 account:
   removeUnverifiedAccountAfterHours: 24
@@ -78,9 +58,9 @@ transaction:
 
 admin:
   datasource:
-    jdbcUrl: jdbc:postgresql://db:5432/ssbd02
+    jdbcUrl: jdbc:postgresql://db:5432/landlordkingdom
     driver-class-name: org.postgresql.Driver
-    username: ssbd02admin
+    username: landlordkingdomadmin
     password: adminP@ssw0rd
     transaction-isolation: TRANSACTION_READ_COMMITTED
     auto-commit: false
@@ -103,4 +83,4 @@ spring:
             enable: false
 server:
   servlet:
-    context-path: /ssbd02
+    context-path: /api

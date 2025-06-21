@@ -4,72 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.lodz.p.it.ssbd2024</groupId>
-    <artifactId>ssbd02</artifactId>
+    <groupId>pl.lodz.p.it.landlordkingdom</groupId>
+    <artifactId>landlordkingdom</artifactId>
     <version>1.0.0</version>
-    <name>ssbd02</name>
+    <name>landlordkingdom</name>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.3</version>
         <relativePath/>
     </parent>
-
-    <developers>
-        <developer>
-            <name>Kacper Kafara</name>
-            <id>242412</id>
-        </developer>
-        <developer>
-            <name>Jakub Górski</name>
-            <id>242396</id>
-        </developer>
-        <developer>
-            <name>Marcel Badek</name>
-            <id>242352</id>
-        </developer>
-        <developer>
-            <name>Adam Czerwonka</name>
-            <id>242374</id>
-        </developer>
-        <developer>
-            <name>Konrad Koza</name>
-            <id>242436</id>
-        </developer>
-        <developer>
-            <name>Bartosz Wiśniewski</name>
-            <id>242561</id>
-        </developer>
-    </developers>
 
     <properties>
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--        <spring.version>6.1.6</spring.version>-->
-<!--        <spring.security.version>6.2.4</spring.security.version>-->
-<!--        <jackson.version>2.17.0</jackson.version>-->
-<!--        <jakarta.version>6.0.0</jakarta.version>-->
-<!--        <postgresql.version>42.7.4</postgresql.version>-->
-<!--        <hibernate.version>6.4.4.Final</hibernate.version>-->
-<!--        <lombok.version>1.18.32</lombok.version>-->
-<!--        <atomikos.version>6.0.0</atomikos.version>-->
-<!--        <mockito.version>5.11.0</mockito.version>-->
-<!--        <junit.version>5.10.2</junit.version>-->
-<!--        <assertj.version>3.25.3</assertj.version>-->
-<!--        <rest-assured.version>5.4.0</rest-assured.version>-->
-        <testcontainers.version>1.19.7</testcontainers.version>
-<!--        <spring.data.jpa.version>3.2.4</spring.data.jpa.version>-->
-<!--        <jakarta.mail.version>2.0.1</jakarta.mail.version>-->
-<!--        <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>-->
-<!--        <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>-->
         <dbunit.version>2.7.3</dbunit.version>
-<!--        <aspectj.version>1.9.22</aspectj.version>-->
-<!--        <logback.version>1.5.4</logback.version>-->
-<!--        <slf4j.version>2.0.12</slf4j.version>-->
         <java-otp.version>0.4.0</java-otp.version>
     </properties>
 
@@ -115,108 +68,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!--WEB-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-webmvc</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.servlet</groupId>-->
-<!--            <artifactId>jakarta.servlet-api</artifactId>-->
-<!--            <version>${jakarta.version}</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context-support</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--        </dependency>-->
-
-        <!--SECURITY-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-config</artifactId>-->
-<!--            <version>${spring.security.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-oauth2-resource-server</artifactId>-->
-<!--            <version>${spring.security.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-oauth2-jose</artifactId>-->
-<!--            <version>${spring.security.version}</version>-->
-<!--        </dependency>-->
 
         <!--JDBC, JPA, JTA-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--            <version>${jackson.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.orm</groupId>-->
-<!--            <artifactId>hibernate-core</artifactId>-->
-<!--            <version>${hibernate.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.validator</groupId>-->
-<!--            <artifactId>hibernate-validator</artifactId>-->
-<!--            <version>8.0.1.Final</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.atomikos</groupId>-->
-<!--            <artifactId>transactions-jta</artifactId>-->
-<!--            <version>${atomikos.version}</version>-->
-<!--            <classifier>jakarta</classifier>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.atomikos</groupId>-->
-<!--            <artifactId>transactions-jdbc</artifactId>-->
-<!--            <version>${atomikos.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.data</groupId>-->
-<!--            <artifactId>spring-data-jpa</artifactId>-->
-<!--            <version>${spring.data.jpa.version}</version>-->
-<!--        </dependency>-->
-
-        <!--TEST-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-test</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.junit.jupiter</groupId>-->
-<!--            <artifactId>junit-jupiter-engine</artifactId>-->
-<!--            <version>${junit.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.assertj</groupId>-->
-<!--            <artifactId>assertj-core</artifactId>-->
-<!--            <version>${assertj.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.mockito</groupId>-->
-<!--            <artifactId>mockito-core</artifactId>-->
-<!--            <version>${mockito.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.mockito</groupId>-->
-<!--            <artifactId>mockito-junit-jupiter</artifactId>-->
-<!--            <version>${mockito.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -248,42 +105,6 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>slf4j-api</artifactId>-->
-<!--            <version>${slf4j.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>ch.qos.logback</groupId>-->
-<!--            <artifactId>logback-classic</artifactId>-->
-<!--            <version>${logback.version}</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.sun.mail</groupId>-->
-<!--            <artifactId>jakarta.mail</artifactId>-->
-<!--            <version>${jakarta.mail.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.aspectj</groupId>-->
-<!--            <artifactId>aspectjweaver</artifactId>-->
-<!--            <version>${aspectj.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.nimbusds</groupId>-->
-<!--            <artifactId>nimbus-jose-jwt</artifactId>-->
-<!--            <version>${nimbus-jose-jwt.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.thymeleaf</groupId>-->
-<!--            <artifactId>thymeleaf</artifactId>-->
-<!--            <version>${thymeleaf.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.thymeleaf</groupId>-->
-<!--            <artifactId>thymeleaf-spring6</artifactId>-->
-<!--            <version>${thymeleaf.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.eatthepath</groupId>
             <artifactId>java-otp</artifactId>
@@ -292,12 +113,12 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.79</version>
+            <version>1.81</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
-            <version>2.0.8</version>
+            <version>2.0.12</version>
         </dependency>
     </dependencies>
 
