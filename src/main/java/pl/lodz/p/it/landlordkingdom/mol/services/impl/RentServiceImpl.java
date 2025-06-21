@@ -3,7 +3,6 @@ package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +31,6 @@ public class RentServiceImpl implements RentService {
     private final TenantMolRepository tenantRepository;
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public Rent getTenantRent(UUID rentId, UUID userId) throws NotFoundException {
         Tenant tenant = tenantRepository.findByUserId(userId).get();
         return rentRepository.findByIdAndTenantId(rentId, tenant.getId())
@@ -40,13 +38,11 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Page<Rent> getCurrentOwnerRents(UUID userId, Pageable pageable) {
         return rentRepository.findCurrentRentsByOwnerId(userId, pageable);
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Rent editEndDate(UUID rentId, UUID userId, LocalDate newEndDate) throws WrongEndDateException, NotFoundException, RentAlreadyEndedException {
         Rent rent = rentRepository.findByOwner_User_IdAndId(userId, rentId).orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
 
@@ -63,25 +59,21 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public List<Rent> getCurrentTenantRents(UUID userId) {
         return rentRepository.findAllCurrentRentsByTenantUserId(userId);
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public List<Rent> getArchivalRentsForTenant(UUID userId) {
         return rentRepository.findAllPastRentsByTenantUserId(userId);
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Rent getOwnerRent(UUID userId, UUID rentId) throws NotFoundException {
         return rentRepository.findByOwner_User_IdAndId(userId, rentId).orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Page<Rent> getArchivalOwnerRents(UUID userId, Pageable pageable) {
         return rentRepository.findArchivalRentsByOwnerUserId(userId, pageable);
     }

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.retry.annotation.Retryable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,6 @@ public class FixedFeeServiceImpl implements FixedFeeService {
     private final LocalRepository localRepository;
 
     @Override
-    @PreAuthorize("permitAll()")
     @Transactional(propagation = Propagation.NESTED)
     @Retryable(retryFor = {RuntimeException.class},
             maxAttempts = 5)
@@ -67,7 +65,6 @@ public class FixedFeeServiceImpl implements FixedFeeService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Page<FixedFee> getRentFixedFees(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable) {
         return fixedFeeRepository.findRentVariableFeesBetween(rentId, userId, startDate, endDate, pageable);

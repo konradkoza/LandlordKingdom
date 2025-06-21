@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,13 +36,11 @@ public class RoleServiceImpl implements RoleService {
     private final MolEmailService molEmailService;
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Page<RoleRequest> getAll(Pageable pageable) {
         return roleRequestRepository.findAll(pageable);
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public RoleRequest get() {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
@@ -55,7 +52,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public RoleRequest requestRole() throws RoleRequestAlreadyExistsException, UserAlreadyHasRoleException, NotFoundException {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         Tenant tenant = tenantRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException(RoleRequestMessages.ROLE_REQUEST_NOT_FOUND, ErrorCodes.ROLE_REQUEST_NOT_FOUND));
@@ -73,7 +69,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public void accept(UUID id) throws NotFoundException {
         RoleRequest roleRequest = roleRequestRepository.findById(id).orElseThrow(() -> new NotFoundException(RoleRequestMessages.ROLE_REQUEST_NOT_FOUND, ErrorCodes.ROLE_REQUEST_NOT_FOUND));
         User user = roleRequest.getTenant().getUser();
@@ -86,7 +81,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public void reject(UUID id) throws NotFoundException {
         RoleRequest roleRequest = roleRequestRepository.findById(id).orElseThrow(() -> new NotFoundException(RoleRequestMessages.ROLE_REQUEST_NOT_FOUND, ErrorCodes.ROLE_REQUEST_NOT_FOUND));
         User user = roleRequest.getTenant().getUser();

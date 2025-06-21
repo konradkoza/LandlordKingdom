@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +47,6 @@ public class LocalServiceImpl implements LocalService {
     private final OwnerMolRepository ownerRepository;
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     @Transactional(rollbackFor = {IdenticalFieldValueException.class}, propagation = Propagation.REQUIRES_NEW)
     public Local addLocal(Local local, UUID ownerId) throws GivenAddressAssignedToOtherLocalException, NotFoundException, CreationException {
         Owner owner = ownerRepository.findByUserIdAndActiveIsTrue(ownerId).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
@@ -79,13 +77,11 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public Page<Local> getActiveLocals(Pageable pageable) {
         return localRepository.findAllByState(pageable, LocalState.ACTIVE);
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public Page<Local> getActiveLocalsFilter(String city, Double minSize, Double maxSize, Pageable pageable) {
         return localRepository.findAllByStateCityAndSize(
                 pageable,
@@ -97,13 +93,11 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Page<Local> getUnapprovedLocals(Pageable pageable) {
         return localRepository.findAllByState(pageable, LocalState.UNAPPROVED);
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Page<Local> getOwnLocals(UUID id, Pageable pageable, String state) {
         if (Objects.equals(state, "ALL")) {
             return localRepository.findAllByOwnerId(id, pageable);
@@ -114,7 +108,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Local editLocal(UUID userId, UUID localId, EditLocalRequest editLocalRequest, String tagValue) throws NotFoundException, ApplicationOptimisticLockException {
         Local local = localRepository.findByOwner_User_IdAndId(userId, localId).orElseThrow(() ->
                 new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
@@ -130,7 +123,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Local leaveLocal(UUID userId, UUID localId) throws InvalidLocalState, NotFoundException {
         Local local = localRepository.findByOwner_User_IdAndId(userId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
         if (local.getState() != LocalState.INACTIVE) {
@@ -143,7 +135,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Local setFixedFee(UUID localId, UUID ownerId, BigDecimal marginFee, BigDecimal rentalFee, String tagValue) throws NotFoundException, ApplicationOptimisticLockException {
         Local local = localRepository.findByOwner_User_IdAndId(ownerId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
 
@@ -163,7 +154,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Page<Local> getAllLocals(Pageable pageable, String state, String ownerLogin) {
         if (state.equals(LocalState.ARCHIVED.name()) || state.equals(LocalState.WITHOUT_OWNER.name()))
             return localRepository.findAllByState(pageable, LocalState.valueOf(state));
@@ -178,7 +168,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {GivenAddressAssignedToOtherLocalException.class, NotFoundException.class})
     public Local changeLocalAddress(UUID id, Address address, String tagValue) throws GivenAddressAssignedToOtherLocalException, NotFoundException, ApplicationOptimisticLockException, InvalidLocalState {
         Local local = localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
@@ -214,7 +203,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Local editLocalByAdmin(UUID localId, EditLocalRequestAdmin editLocalRequest, String tagValue) throws NotFoundException, ApplicationOptimisticLockException {
         Local local = localRepository.findById(localId).orElseThrow(() ->
                 new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
@@ -231,7 +219,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Local approveLocal(UUID id) throws NotFoundException, InvalidLocalState {
         Local local = localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
 
@@ -244,7 +231,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Local rejectLocal(UUID id) throws NotFoundException, InvalidLocalState {
         Local local = localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
 
@@ -258,7 +244,6 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Local archiveLocal(UUID id) throws NotFoundException, InvalidLocalState {
         Local local = localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
         if (local.getState() != LocalState.WITHOUT_OWNER) {
@@ -269,19 +254,16 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Local getLocal(UUID id) throws NotFoundException {
         return localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Local getOwnLocal(UUID id, UUID ownerId) throws NotFoundException {
         return localRepository.findByOwner_User_IdAndId(ownerId, id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public Local getActiveLocal(UUID id) throws NotFoundException {
         return localRepository.findByIdAndState(id, LocalState.ACTIVE).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
     }

@@ -23,7 +23,6 @@ public class UserFilterServiceImpl implements UserFilterService {
     private final UserRepository userRepository;
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public void createOrUpdate(UserFilter userFilter) {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
         UserFilter optionalUserFilter =

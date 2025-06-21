@@ -20,18 +20,14 @@ import java.util.UUID;
 public interface FixedFeeRepository extends JpaRepository<FixedFee, UUID> {
 
     @NonNull
-    @PreAuthorize("permitAll()")
     FixedFee saveAndFlush(@NonNull FixedFee fixedFee);
 
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
     @Query("SELECT fee FROM FixedFee fee WHERE fee.rent.id = :rentId AND (fee.rent.owner.user.id = :userId OR fee.rent.tenant.user.id = :userId) AND fee.date BETWEEN :startDate AND :endDate")
     Page<FixedFee> findRentVariableFeesBetween(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable);
 
-    @PreAuthorize("hasRole('OWNER')")
     @Query("SELECT fee FROM FixedFee fee WHERE fee.rent.local.id = :localId AND fee.rent.owner.user.id = :userId")
     List<FixedFee> findByLocalIdAndUserId(UUID localId, UUID userId);
 
-    @PreAuthorize("hasRole('OWNER')")
     @Query("SELECT fee FROM FixedFee fee WHERE fee.rent.owner.user.id = :ownerId")
     List<FixedFee> findAllByOwnerId(UUID ownerId);
 }

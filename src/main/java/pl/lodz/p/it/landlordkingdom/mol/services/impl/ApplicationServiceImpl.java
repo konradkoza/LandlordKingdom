@@ -1,7 +1,6 @@
 package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,26 +42,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final MolEmailService emailServiceImpl;
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public List<Application> getLocalApplications(UUID localId, UUID ownerId) {
         return applicationRepository.findByLocalIdAndLocal_OwnerId(localId, ownerId);
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public List<Application> getUserApplications(UUID id) throws NotFoundException {
         Tenant tenant = tenantRepository.findByUserId(id).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
         return applicationRepository.findByTenantId(tenant.getId());
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public Application getUserApplication(UUID userId, UUID localId) throws NotFoundException {
         return applicationRepository.findByTenantUserIdAndLocalId(userId, localId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Rent acceptApplication(UUID applicationId, UUID ownerUserId, LocalDate endDate) throws NotFoundException, InvalidLocalState, WrongEndDateException {
         LocalDate currentDate = LocalDate.now();
         if (endDate.isBefore(currentDate)
@@ -106,7 +101,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public void rejectApplication(UUID applicationId, UUID ownerUserId) throws NotFoundException {
         Application application = applicationRepository.findApplicationForOwner(applicationId, ownerUserId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
         User user = application.getTenant().getUser();
@@ -118,7 +112,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public Application createApplication(UUID localId, UUID userId) throws NotFoundException, InvalidLocalState, CreationException {
         if (applicationRepository.findByTenantUserIdAndLocalId(userId, localId).isPresent()) {
             throw new CreationException(ApplicationExceptionMessages.EXISTS, ErrorCodes.APPLICATION_EXISTS);
@@ -136,7 +129,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public void removeApplication(UUID localId, UUID userId) throws NotFoundException {
         Application application = applicationRepository.findByTenantUserIdAndLocalId(userId, localId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
 
@@ -145,3 +137,4 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
 }
+

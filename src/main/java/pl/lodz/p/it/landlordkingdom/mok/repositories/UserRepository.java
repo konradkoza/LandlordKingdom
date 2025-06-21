@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@PreAuthorize("permitAll()")
 @Transactional(propagation = Propagation.MANDATORY)
 public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
 
@@ -29,17 +27,16 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     Optional<User> findByGoogleId(String googleId);
 
     @NonNull
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     List<User> findAll();
 
     @NonNull
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     Page<User> findAll(@NonNull Specification specification, @NonNull Pageable pageable);
 
     List<User> getUsersByCreatedAtBeforeAndVerifiedIsFalse(LocalDateTime createdAt);
 
     @Query("SELECT u FROM User u WHERE :createdAt < u.createdAt AND u.createdAt < :createdAt2 AND u.verified = false")
     List<User> getUsersToResendEmail(LocalDateTime createdAt, LocalDateTime createdAt2);
+
     @Query("SELECT u FROM User u WHERE u.active = true AND u.lastSuccessfulLogin < :date")
     List<User> getUserByActiveIsTrueAndLastSuccessfulLogin(@Param("date") LocalDateTime date);
 }

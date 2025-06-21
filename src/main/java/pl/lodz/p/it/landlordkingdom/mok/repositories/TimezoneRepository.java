@@ -1,7 +1,6 @@
 package pl.lodz.p.it.landlordkingdom.mok.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +12,5 @@ import java.util.UUID;
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public interface TimezoneRepository extends JpaRepository<Timezone, UUID> {
-    @PreAuthorize("isAuthenticated()")
     Optional<Timezone> findByName(String name);
 }

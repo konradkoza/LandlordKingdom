@@ -3,7 +3,6 @@ package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +33,11 @@ public class PaymentServiceImpl implements PaymentService {
     private final RentRepository rentRepository;
 
     @Override
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
     public Page<Payment> getRentPayments(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable) {
         return paymentRepository.findPaymentsForOwnerBetweenDates(userId, rentId, startDate, endDate, pageable);
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public Payment create(UUID userId, UUID rentId, BigDecimal amount) throws NotFoundException, PaymentAlreadyExistsException, RentAlreadyEndedException {
         Owner owner = ownerMolRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
         Rent rent = rentRepository.findByOwnerIdAndId(owner.getId(), rentId)

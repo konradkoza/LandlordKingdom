@@ -3,7 +3,6 @@ package pl.lodz.p.it.landlordkingdom.mok.services.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -55,7 +54,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private int loginTimeOut;
 
     @Transactional(propagation = Propagation.MANDATORY)
-    @PreAuthorize("permitAll()")
     public List<String> getUserRoles(User user) {
         List<String> roles = new ArrayList<>();
 
@@ -67,7 +65,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     public Map<String, String> singInOAuth(String token, String ip, GoogleOAuth2TokenPayload payload) throws UserNotVerifiedException, TokenGenerationException, CreationException, IdenticalFieldValueException {
         try {
             User user = userService.getUserByGoogleId(payload.getSub());
@@ -105,7 +102,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     public Map<String, String> authenticate(String login, PasswordHolder passwordHolder, String language, String ip) throws InvalidLoginDataException, UserInactiveException, TokenGenerationException, SignInBlockedException, UserBlockedException, UserNotVerifiedException, NotFoundException {
         User user = userRepository.findByLogin(login).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
 
@@ -157,7 +153,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    @PreAuthorize("permitAll()")
     protected void handleFailedLogin(User user, String ip) {
         user.setLastFailedLogin(LocalDateTime.now());
         user.setLastFailedLoginIp(ip);
@@ -176,7 +171,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     public Map<String, String> refresh(String refreshToken) throws NotFoundException, RefreshTokenExpiredException {
         Jwt token = jwtService.decodeRefreshToken(refreshToken);
 

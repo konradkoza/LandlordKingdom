@@ -16,7 +16,6 @@ public class TimezoneServiceImpl implements TimezoneService {
     private final TimezoneRepository timezoneRepository;
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public Timezone findByTimezoneName(String timezoneName) {
         return timezoneRepository.findByName(timezoneName).orElse(null);
     }

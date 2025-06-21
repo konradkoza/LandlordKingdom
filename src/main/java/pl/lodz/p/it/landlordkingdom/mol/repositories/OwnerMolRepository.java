@@ -14,13 +14,10 @@ import java.util.UUID;
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public interface OwnerMolRepository extends JpaRepository<Owner, UUID> {
-    @PreAuthorize("hasAnyRole('TENANT', 'OWNER')")
     Optional<Owner> findByUserIdAndActiveIsTrue(UUID id);
 
     @NonNull
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     Owner saveAndFlush(@NonNull Owner owner);
 
-    @PreAuthorize("hasAnyRole('OWNER')")
     Optional<Owner> findByUserId(UUID id);
 }

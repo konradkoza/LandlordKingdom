@@ -3,7 +3,6 @@ package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,6 @@ public class VariableFeeServiceImpl implements VariableFeeService {
     private final RentRepository rentRepository;
 
     @Override
-    @PreAuthorize("hasRole('TENANT')")
     public VariableFee create(UUID userId, UUID rentId, BigDecimal amount)
             throws NotFoundException, VariableFeeAlreadyExistsException {
         Tenant tenant = tenantRepository.findByUserId(userId)
@@ -58,7 +56,6 @@ public class VariableFeeServiceImpl implements VariableFeeService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
     public Page<VariableFee> getRentVariableFees(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable) {
         return variableFeeRepository.findRentVariableFeesBetween(rentId, userId, startDate, endDate, pageable);
     }

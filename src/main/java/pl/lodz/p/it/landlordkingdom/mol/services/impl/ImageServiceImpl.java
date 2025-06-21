@@ -1,7 +1,6 @@
 package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +29,11 @@ public class ImageServiceImpl implements ImageService {
     private final LocalRepository localRepository;
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public void store(MultipartFile file, UUID localId) throws NotFoundException, ImageFormatNotSupported, CreationException {
         Local local = localRepository.findById(localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
         if (!Objects.equals(file.getContentType(), "image/jpeg") && !Objects.equals(file.getContentType(), "image/png")) {
             throw new ImageFormatNotSupported(LocalExceptionMessages.IMAGE_FORMAT_NOT_SUPPORTED, ErrorCodes.IMAGE_FORMAT_NOT_SUPPORTED);
         }
-
 
         try {
             imageRepository.saveAndFlush(new Image(local, file.getBytes(), file.getContentType()));
@@ -47,20 +44,17 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     public Image getImage(UUID id) throws NotFoundException {
         return imageRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.IMAGE_NOT_FOUND, ErrorCodes.IMAGE_NOT_FOUND));
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public List<UUID> getImagesByLocalId(UUID id) throws NotFoundException {
         localRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
         return imageRepository.findImageIdsByLocalId(id);
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public void deleteImage(UUID id) throws NotFoundException {
         imageRepository.findById(id).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.IMAGE_NOT_FOUND, ErrorCodes.IMAGE_NOT_FOUND));
         imageRepository.deleteById(id);

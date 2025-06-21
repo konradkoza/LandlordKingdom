@@ -2,7 +2,6 @@ package pl.lodz.p.it.landlordkingdom.mol.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ public class MolEmailServiceImpl implements MolEmailService {
     private final HtmlEmailService htmlEmailService;
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public void sendRoleRequestAcceptedEmail(String to, String name, String lang){
         Map<String, Object> templateModel = Map.of(
                 "name", name);
@@ -30,7 +28,6 @@ public class MolEmailServiceImpl implements MolEmailService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public void sendRoleRequestRejectedEmail(String to, String name, String lang) {
         Map<String, Object> templateModel = Map.of(
                 "name", name);
@@ -40,7 +37,6 @@ public class MolEmailServiceImpl implements MolEmailService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public void sendApplicationRejectedEmail(String to, String name, String localName, String lang) {
         Map<String, Object> templateModel = Map.of(
                 "name", name,
@@ -51,7 +47,6 @@ public class MolEmailServiceImpl implements MolEmailService {
     }
 
     @Override
-    @PreAuthorize("hasRole('OWNER')")
     public void sendApplicationAcceptedEmail(String to, String name, String localName, String lang) {
         Map<String, Object> templateModel = Map.of(
                 "name", name,

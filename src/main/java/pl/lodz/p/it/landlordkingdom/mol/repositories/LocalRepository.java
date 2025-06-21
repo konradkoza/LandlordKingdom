@@ -23,35 +23,26 @@ import java.util.UUID;
 public interface LocalRepository extends JpaRepository<Local, UUID> {
 
     @NonNull
-    @PreAuthorize("permitAll()")
     Optional<Local> findById(@NonNull UUID id);
 
-    @PreAuthorize("hasRole('OWNER')")
     List<Local> findByAddress(Address address);
 
-    @PreAuthorize("hasRole('OWNER')")
     @Query("SELECT l FROM Local l WHERE l.address = :address AND l.state != :state")
     Optional<Local> findByAddressAndStateNotContaining(@Param("address") Address address, @Param("state") LocalState state);
 
     @NonNull
-    @PreAuthorize("permitAll()")
     Local saveAndFlush(@NonNull Local local);
 
-    @PreAuthorize("hasRole('OWNER')")
     @Query("SELECT l FROM Local l WHERE l.owner.user.id = :id")
     Page<Local> findAllByOwnerId(UUID id, Pageable pageable);
 
-    @PreAuthorize("hasRole('OWNER')")
     @Query("SELECT l FROM Local l WHERE l.owner.user.id = :id AND l.state = :state")
     Page<Local> findAllByOwnerIdAndState(UUID id, Pageable pageable, LocalState state);
 
-    @PreAuthorize("isAuthenticated()")
     List<Local> findAllByState(LocalState localState);
 
-    @PreAuthorize("hasAnyRole('TENANT', 'OWNER', 'ADMINISTRATOR')")
     Page<Local> findAllByState(Pageable pageable, LocalState state);
 
-    @PreAuthorize("isAuthenticated()")
     @Query("SELECT l FROM Local l " +
             "WHERE l.state = :localState " +
             "AND (LOWER(l.address.city) LIKE LOWER(CONCAT('%', :city, '%')) OR :city IS NULL) " +
@@ -66,22 +57,17 @@ public interface LocalRepository extends JpaRepository<Local, UUID> {
 
 
 
-    @PreAuthorize("hasRole('OWNER')")
     Optional<Local> findByOwner_User_IdAndId(UUID userId, UUID id);
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @Query("SELECT l FROM Local l WHERE LOWER(l.owner.user.login) LIKE LOWER(CONCAT('%', :ownerLogin, '%'))")
     @NonNull
     Page<Local> findAll(@NonNull Pageable pageable, String ownerLogin);
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @Query("SELECT l FROM Local l WHERE l.state = :state AND LOWER(l.owner.user.login) LIKE LOWER(CONCAT('%', :ownerLogin, '%'))")
     Page<Local> findAllByStateAndOwnerLogin(Pageable pageable, LocalState state, String ownerLogin);
 
     @NonNull
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
     Page<Local> findAll(@NonNull Pageable pageable);
 
-    @PreAuthorize("hasRole('TENANT')")
     Optional<Local> findByIdAndState(UUID id, LocalState state);
 }
