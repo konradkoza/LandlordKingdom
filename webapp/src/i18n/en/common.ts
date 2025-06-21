@@ -896,7 +896,7 @@ const uploadImage = {
   uploadImage: "Upload image",
   uploadImageDescription:
     "Upload an image of your local to attract more customers.",
-  uploadedFileTooLarge: "Uploaded file is too large. Max size is 256KB",
+  uploadedFileTooLarge: "Uploaded file is too large. Max size is 1MB",
   uploadedFileNotImage: "Only .png and .jpeg files are allowed",
   chooseFile: "Choose file",
   upload: "Upload",

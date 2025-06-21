@@ -25,7 +25,7 @@ const UploadImageCard: FC<UploadImageCardProps> = ({ id, images }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files != null) {
       const file = event.target.files[0];
-      if (file.size >= 256 * 1024) {
+      if (file.size >= 1024 * 1024) {
         setFile(null);
         toast({
           variant: "destructive",
