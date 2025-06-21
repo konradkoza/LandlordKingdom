@@ -24,7 +24,7 @@ To run the application, you need to have installed:
 - [Node.js](https://nodejs.org/en/download)
 - [Yarn](https://classic.yarnpkg.com/en/)
 
-To run the application from docker-ssbd02 directory, run the following command:
+To run the application from docker directory, run the following command:
 ```bash
 docker compose -f dev.docker-compose.yml up -d --build
 ``` 

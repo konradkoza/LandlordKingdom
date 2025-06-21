@@ -977,7 +977,7 @@ export default {
   success: "Operacja powiodła się",
   sessionExpired: "Sesja wygasła",
   sessionExpiredDescription: "Twoja sesja wygasła, zaloguj się ponownie",
-  footer: "Landlord Kingdom - SSBD202402",
+  footer: "Landlord Kingdom",
   logoPlaceholder: "Landlord Kingdom",
   confirm: "Potwierdź",
   cancel: "Anuluj",

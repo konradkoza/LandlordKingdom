@@ -968,7 +968,7 @@ export default {
   success: "Success",
   sessionExpired: "Session expired",
   sessionExpiredDescription: "Session expired, please login again",
-  footer: "Landlord Kingdom - SSBD202402",
+  footer: "Landlord Kingdom",
   logoPlaceholder: "Landlord Kingdom",
   confirm: "Confirm",
   cancel: "Cancel",

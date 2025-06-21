@@ -2,7 +2,7 @@
 <configuration>
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/usr/local/tomcat/logs/ssbd02-logs-${bySecond}.log</file>
+        <file>/usr/local/tomcat/logs/logs-${bySecond}.log</file>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>

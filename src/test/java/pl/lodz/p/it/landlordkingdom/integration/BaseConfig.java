@@ -29,7 +29,7 @@ public class BaseConfig {
     static final Network network = Network.newNetwork();
 
     static MountableFile war = MountableFile
-            .forHostPath(Paths.get("target/ssbd02.war").toAbsolutePath());
+            .forHostPath(Paths.get("target/landlordkingdom.jar").toAbsolutePath());
 
     public static String baseUrl;
 
@@ -70,25 +70,23 @@ public class BaseConfig {
                 .dependsOn(postgres)
                 .dependsOn(smtp)
                 .withEnv("ACTIVE_PROFILE", "dev")
-                .withEnv("DB.URL", "jdbc:postgresql://testdb:5432/ssbd02")
+                .withEnv("DB.URL", "jdbc:postgresql://testdb:5432/landlordkingdom")
                 .withEnv("MAIL.PORT", "25")
                 .withEnv("MAIL.HOST", "smtp4test")
-                .withCopyToContainer(war, "/usr/local/tomcat/webapps/ssbd02.war")
-                .withCopyFileToContainer(MountableFile.forClasspathResource("privateJwt-key.pem"), "/etc/ssbd02/privateJwt-key.pem")
-                .withCopyFileToContainer(MountableFile.forClasspathResource("privateRefresh-key.pem"), "/etc/ssbd02/privateRefresh-key.pem")
-                .waitingFor(Wait.forHttp("/ssbd02").forPort(8080).forStatusCode(404));
+                .withCopyToContainer(war, "/usr/local/tomcat/webapps/landlordkingdom.jar")
+                .waitingFor(Wait.forHttp("/api").forPort(8080).forStatusCode(404));
         tomcat.start();
 
-        baseUrl = "http://" + tomcat.getHost() + ":" + tomcat.getMappedPort(8080) + "/ssbd02";
+        baseUrl = "http://" + tomcat.getHost() + ":" + tomcat.getMappedPort(8080) + "/api";
     }
 
     @BeforeEach
     public void setup() throws Exception {
         int postgresPort = postgres.getMappedPort(5432);
 
-        baseUrl = "http://" + tomcat.getHost() + ":" + tomcat.getMappedPort(8080) + "/ssbd02";
+        baseUrl = "http://" + tomcat.getHost() + ":" + tomcat.getMappedPort(8080) + "/api";
 
-        String jdbcUrl = String.format("jdbc:postgresql://localhost:%d/ssbd02?loggerLevel=OFF", postgresPort);
+        String jdbcUrl = String.format("jdbc:postgresql://localhost:%d/landlordkingdom?loggerLevel=OFF", postgresPort);
         Connection jdbcConnection = DriverManager.getConnection(jdbcUrl, postgres.getUsername(), postgres.getPassword());
 
         connection = new DatabaseConnection(jdbcConnection);

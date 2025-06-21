@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:16.2-alpine
-    container_name: ssbd02-db
+    container_name: landlordkingdom-db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -19,7 +19,7 @@ services:
     build:
       context: ..
       dockerfile: /DockerfileTomcat
-    container_name: ssbd02-tomcat
+    container_name: landlordkingdom-tomcat
     restart: always
     environment:
       - ACTIVE_PROFILE=prod
@@ -29,15 +29,12 @@ services:
       - my_network
     depends_on:
       - db
-    volumes:
-      - /etc/ssbd02/privateJwt-key.pem:/etc/ssbd02/privateJwt-key.pem
-      - /etc/ssbd02/privateRefresh-key.pem:/etc/ssbd02/privateRefresh-key.pem
 
   nginx:
     build:
       context: ..
       dockerfile: /DockerfileNginx
-    container_name: ssbd02-nginx
+    container_name: landlordkingdom-nginx
     restart: always
     ports:
       - "80:80"
