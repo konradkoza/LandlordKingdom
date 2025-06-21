@@ -80,34 +80,25 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/signin-2fa")
-    public ResponseEntity<Void> authenticate2fa(@RequestBody @Valid AuthenticationRequest request) {
+
+    @PostMapping("/signin")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request, HttpServletRequest httpServletRequest) {
         try {
-            authenticationService.generateOTP(request.login(), new PasswordHolder(request.password()), request.language(), servletRequest.getHeader("X-Forwarded-For"));
-            return ResponseEntity.ok().build();
+            Map<String, String> authResponse = authenticationService.authenticate(request.login(), new PasswordHolder(request.password()), request.language(), httpServletRequest.getRemoteAddr());
+            return ResponseEntity.ok(new AuthenticationResponse(authResponse.get("token"), authResponse.get("refreshToken"), authResponse.get("theme")));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (UserNotVerifiedException | SignInBlockedException | UserBlockedException | UserInactiveException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage(), e);
         } catch (InvalidLoginDataException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
-        } catch (InvalidKeyException | TokenGenerationException  e) {
+        } catch (TokenGenerationException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "There was an error generating token", e);
         }
     }
 
 
-    @PostMapping("/verify-2fa")
-    public ResponseEntity<AuthenticationResponse> verify2faCode(@RequestBody @Valid Verify2FATokenRequest request) {
-        try {
-            Map<String, String> authResponse = authenticationService.verifyOTP(request.token(), request.login(), servletRequest.getHeader("X-Forwarded-For"));
-            return ResponseEntity.ok(new AuthenticationResponse(authResponse.get("token"), authResponse.get("refreshToken"), authResponse.get("theme")));
-        } catch (VerificationTokenUsedException | VerificationTokenExpiredException | LoginNotMatchToOTPException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
-    }
+
 
     @GetMapping("/oauth2/url")
     public ResponseEntity<OAuth2UrlResponse> getOAuth2Url() {

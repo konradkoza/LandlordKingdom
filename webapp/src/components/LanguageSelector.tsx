@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import { IoLanguage } from "react-icons/io5";
 import { useLanguageStore } from "@/i18n/languageStore";
 
-const LanguageSelector: FC = () => {
+const LanguageSelector = () => {
   const { setLanguage } = useLanguageStore();
   return (
     <DropdownMenu>

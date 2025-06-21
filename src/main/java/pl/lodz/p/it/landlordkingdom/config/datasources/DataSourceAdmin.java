@@ -59,8 +59,8 @@ public class DataSourceAdmin {
                                                           JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setJtaDataSource(dataSource);
-        em.setPersistenceUnitName("ssbd02admin");
-        em.setPackagesToScan("pl.lodz.p.it.ssbd2024.model");
+        em.setPersistenceUnitName("landlordkingdomadmin");
+        em.setPackagesToScan("pl.lodz.p.it.landlordkingdom.model");
         em.setJpaVendorAdapter(jpaVendorAdapter);
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", "true");

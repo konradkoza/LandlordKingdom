@@ -35,19 +35,6 @@ login:
   maxAttempts: 3
   timeOut: 300
 
-mail:
-  host: smtp4dev
-  port: 25
-  username: user
-  password: user
-  smtp:
-    auth: false
-    starttls:
-      enable: false
-  transfer:
-    protocol: smtp
-
-
 account:
   removeUnverifiedAccountAfterHours: 24
   deactivateAccountAfterDays: 31

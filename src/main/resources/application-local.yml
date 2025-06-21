@@ -1,3 +1,5 @@
+
+
 app:
   url: http://localhost:3000
 
@@ -51,8 +53,6 @@ admin:
     auto-commit: false
 
 spring:
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
   task:
     scheduling:
       pool:

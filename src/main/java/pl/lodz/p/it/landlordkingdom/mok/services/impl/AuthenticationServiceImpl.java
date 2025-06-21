@@ -68,85 +68,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @PreAuthorize("permitAll()")
-    public void generateOTP(String login, PasswordHolder password, String language, String ip) throws InvalidKeyException, NotFoundException, UserNotVerifiedException, UserBlockedException, SignInBlockedException, InvalidLoginDataException, TokenGenerationException, UserInactiveException {
-        User user = userRepository.findByLogin(login).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
-
-        if (!user.isVerified()) {
-            throw new UserNotVerifiedException(UserExceptionMessages.NOT_VERIFIED, ErrorCodes.USER_NOT_VERIFIED);
-        }
-
-        if (user.isBlocked()) {
-            throw new UserBlockedException(UserExceptionMessages.BLOCKED, ErrorCodes.USER_BLOCKED);
-        }
-
-        if (user.getLoginAttempts() >= maxLoginAttempts && Duration.between(user.getLastFailedLogin(), LocalDateTime.now()).toSeconds() <= loginTimeOut) {
-            throw new SignInBlockedException(UserExceptionMessages.SIGN_IN_BLOCKED, ErrorCodes.SIGN_IN_BLOCKED);
-        } else if (user.getLoginAttempts() >= maxLoginAttempts) {
-            user.setLoginAttempts(0);
-        }
-
-        if (passwordEncoder.matches(password.password(), user.getPassword())) {
-            if (!user.isActive()) {
-                String token = verificationTokenService.generateAccountActivateToken(user);
-                emailService.sendAccountActivateAfterBlock(user.getEmail(), user.getFirstName(), token, language);
-                throw new UserInactiveException(UserExceptionMessages.INACTIVE, ErrorCodes.USER_INACTIVE);
-            }
-
-            user.setLanguage(language);
-            userRepository.saveAndFlush(user);
-
-            String token = verificationTokenService.generateOTPToken(user);
-            emailService.sendOTPEmail(user.getEmail(), user.getFirstName(), token, user.getLanguage());
-        } else {
-            handleFailedLogin(user, ip);
-            throw new InvalidLoginDataException(UserExceptionMessages.INVALID_LOGIN_DATA, ErrorCodes.INVALID_LOGIN_DATA);
-        }
-    }
-
-    @Override
-    @PreAuthorize("permitAll()")
-    public Map<String, String> verifyOTP(String token, String login, String ip) throws VerificationTokenUsedException, VerificationTokenExpiredException, NotFoundException, LoginNotMatchToOTPException {
-        VerificationToken verificationToken;
-
-        try {
-            verificationToken = verificationTokenService.validateOTPToken(token);
-        } catch (VerificationTokenUsedException e) {
-            User user = userRepository.findByLogin(login).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
-            handleFailedLogin(user, ip);
-            throw e;
-        }
-
-        User user = verificationToken.getUser();
-
-        if (!user.getLogin().equals(login)) {
-            handleFailedLogin(user, ip);
-            throw new LoginNotMatchToOTPException(UserExceptionMessages.LOGIN_NOT_MATCH_TO_OTP, ErrorCodes.LOGIN_NOT_MATCH_TO_OTP);
-        }
-
-        user.setLastSuccessfulLogin(LocalDateTime.now());
-        user.setLoginAttempts(0);
-        user.setLastSuccessfulLoginIp(ip);
-
-        List<String> roles = getUserRoles(user);
-
-        if (roles.contains("ADMINISTRATOR")) {
-            emailService.sendAdminLoginEmail(user.getEmail(), user.getFirstName(), ip, user.getLanguage());
-        }
-
-        String jwt = jwtService.generateToken(verificationToken.getUser().getId(), verificationToken.getUser().getLogin(), getUserRoles(verificationToken.getUser()));
-        String refreshToken = jwtService.generateRefreshToken(verificationToken.getUser().getId());
-        String theme = user.getTheme() != null ?
-                user.getTheme().getType().toLowerCase() : "light";
-
-        log.info("Session started for user: {} - {}, from address IP: {}", login, user.getId(), ip);
-        return Map.of(
-                "token", jwt,
-                "refreshToken", refreshToken,
-                "theme", theme);
-    }
-
-    @Override
-    @PreAuthorize("permitAll()")
     public Map<String, String> singInOAuth(String token, String ip, GoogleOAuth2TokenPayload payload) throws UserNotVerifiedException, TokenGenerationException, CreationException, IdenticalFieldValueException {
         try {
             User user = userService.getUserByGoogleId(payload.getSub());
@@ -180,6 +101,58 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return Map.of(
                     "created", "true"
             );
+        }
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    public Map<String, String> authenticate(String login, PasswordHolder passwordHolder, String language, String ip) throws InvalidLoginDataException, UserInactiveException, TokenGenerationException, SignInBlockedException, UserBlockedException, UserNotVerifiedException, NotFoundException {
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
+
+        if (!user.isVerified()) {
+            throw new UserNotVerifiedException(UserExceptionMessages.NOT_VERIFIED, ErrorCodes.USER_NOT_VERIFIED);
+        }
+
+        if (user.isBlocked()) {
+            throw new UserBlockedException(UserExceptionMessages.BLOCKED, ErrorCodes.USER_BLOCKED);
+        }
+
+        if (user.getLoginAttempts() >= maxLoginAttempts && Duration.between(user.getLastFailedLogin(), LocalDateTime.now()).toSeconds() <= loginTimeOut) {
+            throw new SignInBlockedException(UserExceptionMessages.SIGN_IN_BLOCKED, ErrorCodes.SIGN_IN_BLOCKED);
+        } else if (user.getLoginAttempts() >= maxLoginAttempts) {
+            user.setLoginAttempts(0);
+        }
+
+        if (passwordEncoder.matches(passwordHolder.password(), user.getPassword())) {
+            if (!user.isActive()) {
+                String token = verificationTokenService.generateAccountActivateToken(user);
+                emailService.sendAccountActivateAfterBlock(user.getEmail(), user.getFirstName(), token, language);
+                throw new UserInactiveException(UserExceptionMessages.INACTIVE, ErrorCodes.USER_INACTIVE);
+            }
+
+            user.setLastSuccessfulLogin(LocalDateTime.now());
+            user.setLoginAttempts(0);
+            user.setLastSuccessfulLoginIp(ip);
+
+            List<String> roles = getUserRoles(user);
+
+            if (roles.contains("ADMINISTRATOR")) {
+                emailService.sendAdminLoginEmail(user.getEmail(), user.getFirstName(), ip, user.getLanguage());
+            }
+
+            String jwt = jwtService.generateToken(user.getId(), user.getLogin(), roles);
+            String refreshToken = jwtService.generateRefreshToken(user.getId());
+            String theme = user.getTheme() != null ?
+                    user.getTheme().getType().toLowerCase() : "light";
+
+            log.info("Session started for user: {} - {}, from address IP: {}", login, user.getId(), ip);
+            return Map.of(
+                    "token", jwt,
+                    "refreshToken", refreshToken,
+                    "theme", theme);
+        } else {
+            handleFailedLogin(user, ip);
+            throw new InvalidLoginDataException(UserExceptionMessages.INVALID_LOGIN_DATA, ErrorCodes.INVALID_LOGIN_DATA);
         }
     }
 
