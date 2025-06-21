@@ -9,6 +9,7 @@ import OwnLocalsPage from "./pages/Owner/Locals";
 import OwnerPage from "./pages/Owner";
 import TenantPage from "./pages/Tenant";
 import AdminPage from "./pages/Admin";
+import BaseMeLayout from "./Layouts/BaseMeLayout";
 
 const UserDetailsPage = loadable(() => import("./pages/Admin/UserDetailsPage"));
 const MePage = loadable(() => import("./pages/Me"));
@@ -121,7 +122,13 @@ const TenantRoutes: RouteObject[] = [
 const AccountRoutes: RouteObject[] = [{ index: true, Component: MePage }];
 
 export const UnprotectedRoutes: RouteObject[] = [
-  { index: true, Component: HomePage },
+  {
+    Component: BaseMeLayout,
+    children: [
+      { index: true, Component: ActiveLocalsPage },
+      { path: "/tenant/locals/:id", Component: ActiveLocalDetailsPage },
+    ],
+  },
   { path: "/login", Component: LoginPage },
   { path: "/register", Component: RegisterPage },
   { path: "/register-success", Component: RegistrationSuccessPage },

@@ -19,7 +19,6 @@ import { useTranslation } from "react-i18next";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import GoogleLoginButton from "@/components/GoogleLoginButton";
 import LanguageSelector from "@/components/LanguageSelector";
 import LoadingButton from "@/components/LoadingButton";
 import { useTheme } from "@/components/ThemeProvider";
@@ -166,9 +165,11 @@ const Login2FaPage: FC = () => {
               isLoading={isPending}
               text={t("loginPage.loginButton")}
             />
-            <GoogleLoginButton />
             <Button variant="link" asChild className="w-fit self-center">
               <NavLink to={"/register"}>{t("loginPage.register")}</NavLink>
+            </Button>
+            <Button variant="link" asChild>
+              <NavLink to={"/"}>{t("common.backToHomePage")}</NavLink>
             </Button>
           </div>
         </form>

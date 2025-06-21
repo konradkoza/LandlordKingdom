@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { UserResponse } from "@/types/user/UserResponseType.ts";
 import { UserUpdateRequestType } from "@/types/user/UserUpdateRequestType.ts";
-import {toast, useToast} from "@/components/ui/use-toast.ts";
+import { toast, useToast } from "@/components/ui/use-toast.ts";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/i18n/languageStore";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { AxiosError, AxiosInstance } from "axios";
 import { ErrorCode } from "@/@types/errorCode";
-import {t} from "i18next";
+import { t } from "i18next";
 
 interface UserUpdateRequest {
   request: UserUpdateRequestType;
@@ -22,7 +22,7 @@ const putMeData = async (data: UserUpdateRequest, api: AxiosInstance) => {
   });
 };
 
-export const useMeQuery = () => {
+export const useMeQuery = (execute: boolean = true) => {
   const { setLanguage } = useLanguageStore();
   const { api } = useAxiosPrivate();
   return useQuery({
@@ -38,12 +38,13 @@ export const useMeQuery = () => {
           variant: "destructive",
           title: t("userDataPage.error"),
           description: t(
-              `errors.${(axiosError.response?.data as ErrorCode).exceptionCode}`
+            `errors.${(axiosError.response?.data as ErrorCode).exceptionCode}`
           ),
         });
         return Promise.reject(error);
       }
     },
+    enabled: execute,
   });
 };
 

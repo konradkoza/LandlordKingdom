@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../useAxiosPrivate";
 import { OwnApplication } from "@/types/application/OwnApplication";
 
-export const useGetUserApplication = (id: string) => {
+export const useGetUserApplication = (id: string, execute: boolean = true) => {
   const { api } = useAxiosPrivate();
 
   const { data, isLoading, isError } = useQuery({
@@ -18,6 +18,7 @@ export const useGetUserApplication = (id: string) => {
         return Promise.reject(error);
       }
     },
+    enabled: execute,
   });
 
   return { application: data, isLoading, isError };

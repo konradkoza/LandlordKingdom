@@ -26,6 +26,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useMeQuery } from "@/data/meQueries";
 
 export type NavigationLink = {
   path: string;
@@ -35,7 +36,7 @@ export type LayoutType = "admin" | "tenant" | "owner" | "me";
 
 type BaseLayoutProps = {
   type: LayoutType;
-  children: React.ReactElement;
+  children: React.ReactNode;
   links?: NavigationLink[];
 };
 
@@ -85,6 +86,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children, type, links = [] }) => {
     ADMINISTRATOR: "admin",
     TENANT: "tenant",
     OWNER: "owner",
+    undefined: "",
   };
 
   const onLogoClick = () => {
@@ -162,47 +164,49 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children, type, links = [] }) => {
             ))}
           </div>
           <ModeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className={cn("px-2 py-1 capitalize ", colors.hover)}
-              >
-                {i18n.exists(`roles.${activeRole?.toLowerCase()}`)
-                  ? t(`roles.${activeRole?.toLowerCase() as Role}`)
-                  : ""}
-                <IoMdArrowDropdown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>{t("navLinks.roles")}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {roles?.map((role, idx) => (
-                <DropdownMenuItem
-                  onClick={() => {
-                    setActiveRole(role);
-                    roleChanged({ role });
-                  }}
-                  asChild
-                  key={idx}
+          {roles && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={cn("px-2 py-1 capitalize", colors.hover)}
                 >
-                  <NavLink to={`/${role_mapping[role]}`}>
-                    {i18n.exists(`roles.${role.toLowerCase()}`)
-                      ? t(`roles.${role.toLowerCase() as Role}`)
-                      : ""}
-                  </NavLink>
-                </DropdownMenuItem>
-              ))}
-              {roles?.includes("TENANT") && !roles.includes("OWNER") && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => openDialog("roleRequest")}>
-                    {t("roleRequestDialog.requestOwnerRole")}
+                  {i18n.exists(`roles.${activeRole?.toLowerCase()}`)
+                    ? t(`roles.${activeRole?.toLowerCase() as Role}`)
+                    : ""}
+                  <IoMdArrowDropdown />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>{t("navLinks.roles")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {roles.map((role, idx) => (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setActiveRole(role);
+                      roleChanged({ role });
+                    }}
+                    asChild
+                    key={idx}
+                  >
+                    <NavLink to={`/${role_mapping[role]}`}>
+                      {i18n.exists(`roles.${role.toLowerCase()}`)
+                        ? t(`roles.${role.toLowerCase() as Role}`)
+                        : ""}
+                    </NavLink>
                   </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                ))}
+                {roles?.includes("TENANT") && !roles.includes("OWNER") && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => openDialog("roleRequest")}>
+                      {t("roleRequestDialog.requestOwnerRole")}
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <MyAccountButton hover={colors.hover} />
         </div>
       </nav>

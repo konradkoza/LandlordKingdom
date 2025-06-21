@@ -187,7 +187,7 @@ const RegisterPage: FC = () => {
       <Form {...form}>
         <form
           onSubmit={onSubmit}
-          className="bg-card border-1 relative flex w-6/12 flex-col rounded-md p-7 shadow-2xl shadow-shadowColor"
+          className="border-1 relative flex w-6/12 flex-col rounded-md bg-card p-7 shadow-2xl shadow-shadowColor"
         >
           <LanguageSelector />
           <h1 className="self-center text-3xl font-bold">
@@ -296,6 +296,9 @@ const RegisterPage: FC = () => {
           />
           <Button variant="link" asChild className="w-fit self-center">
             <NavLink to={"/login"}>{t("loginPage.loginButton")}</NavLink>
+          </Button>
+          <Button variant="link" asChild>
+            <NavLink to={"/"}>{t("common.backToHomePage")}</NavLink>
           </Button>
         </form>
       </Form>

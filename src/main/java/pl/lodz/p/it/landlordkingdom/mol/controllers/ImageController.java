@@ -43,7 +43,6 @@ public class ImageController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<byte[]> getImage(@PathVariable UUID id) throws NotFoundException {
         Image image = imageService.getImage(id);
         return ResponseEntity.ok()
@@ -53,7 +52,6 @@ public class ImageController {
 
 
     @GetMapping(path = "/local/{id}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<UUID>> getLocalImagesIds(@PathVariable UUID id) throws NotFoundException {
         return ResponseEntity.ok(imageService.getImagesByLocalId(id));
     }

@@ -243,6 +243,7 @@ const common = {
   no: "no",
   update: "Update",
   confirmDialogTitle: "Are you sure?",
+  backToHomePage: "Back to home page",
 };
 
 const navLinks = {

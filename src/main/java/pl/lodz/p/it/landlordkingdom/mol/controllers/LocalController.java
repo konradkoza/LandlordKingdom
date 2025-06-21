@@ -46,7 +46,6 @@ public class LocalController {
     private final Signer signer;
 
     @GetMapping("/active")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetActiveLocalsResponsePage> getActiveLocals(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
@@ -56,7 +55,6 @@ public class LocalController {
     }
 
     @PostMapping("/active/filters")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetActiveLocalsResponsePage> getActiveLocals(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
@@ -211,7 +209,6 @@ public class LocalController {
     }
 
     @GetMapping("/active/{id}")
-    @PreAuthorize("hasRole('TENANT')")
     public ResponseEntity<ActiveLocalResponse> getActiveLocal(@PathVariable UUID id) {
         try {
             Local local = localService.getActiveLocal(id);

@@ -250,6 +250,7 @@ const common = {
   no: "nie",
   update: "Zaktualizuj",
   confirmDialogTitle: "Czy jesteś pewny?",
+  backToHomePage: "Wróć do strony głównej",
 };
 
 const navLinks = {

@@ -24,28 +24,46 @@ import { useCreateApplication } from "@/data/application/useCreateApplication";
 import { useQueryClient } from "@tanstack/react-query";
 import { toLocaleFixed } from "@/utils/currencyFormat";
 import LocalImages from "./LocalImages";
+import { useUserStore } from "@/store/userStore";
 
 const ActiveLocalDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const { local } = useGetActiveLocal(id!);
-  const { application, isError } = useGetUserApplication(id!);
   const { createApplication } = useCreateApplication();
+  const { id: userId } = useUserStore();
+  const { application, isError } = useGetUserApplication(
+    id!,
+    userId != undefined && userId !== null
+  );
   const queryClient = useQueryClient();
 
-  const breadcrumbs = useBreadcrumbs([
-    {
-      title: t("breadcrumbs.tenant"),
-      path: "/tenant",
-    },
-    {
-      title: t("breadcrumbs.locals"),
-      path: "/tenant/locals",
-    },
-    {
-      title: local?.name ?? "",
-      path: `/tenant/locals/${id}`,
-    },
-  ]);
+  const breadcrumbs = useBreadcrumbs(
+    userId
+      ? [
+          {
+            title: t("breadcrumbs.tenant"),
+            path: "/tenant",
+          },
+          {
+            title: t("breadcrumbs.locals"),
+            path: "/tenant/locals",
+          },
+          {
+            title: local?.name ?? "",
+            path: `/tenant/locals/${id}`,
+          },
+        ]
+      : [
+          {
+            title: t("breadcrumbs.locals"),
+            path: "/",
+          },
+          {
+            title: local?.name ?? "",
+            path: `/tenant/locals/${id}`,
+          },
+        ]
+  );
 
   const handleCreateApplication = async () => {
     await createApplication(id!);
@@ -97,37 +115,40 @@ const ActiveLocalDetailsPage: FC = () => {
 
               <LocalImages id={id!} />
 
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button className="mt-4">
-                    {t("activeLocalDetails.apply")}
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      {t("activeLocalDetails.applicationTitle")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {application
-                        ? t("activeLocalDetails.applicationExistsDescription") +
-                          application.createdAt
-                        : t("activeLocalDetails.applicationDescription")}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-                    <AlertDialogAction asChild>
-                      <LoadingButton
-                        text={t("confirm")}
-                        isLoading={!isError && !application}
-                        disableButton={application != undefined}
-                        onClick={async () => await handleCreateApplication()}
-                      />
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              {userId && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className="mt-4">
+                      {t("activeLocalDetails.apply")}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {t("activeLocalDetails.applicationTitle")}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {application
+                          ? t(
+                              "activeLocalDetails.applicationExistsDescription"
+                            ) + application.createdAt
+                          : t("activeLocalDetails.applicationDescription")}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <LoadingButton
+                          text={t("confirm")}
+                          isLoading={!isError && !application}
+                          disableButton={application != undefined}
+                          onClick={async () => await handleCreateApplication()}
+                        />
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
 
               <RefreshQueryButton
                 className="absolute right-1 top-1"
