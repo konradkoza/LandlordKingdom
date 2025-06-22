@@ -912,6 +912,38 @@ const uploadImage = {
   uploadImageError: "Error while uploading image",
 };
 
+const landingPage = {
+  title: "Landlord Kingdom",
+  subtitle: "Your Property Management Solution",
+  description:
+    "Manage your properties with ease. Landlord Kingdom is a platform that allows property owners to manage their locals, rents, and payments in one place.",
+  viewLocals: "Check available locals",
+  features: {
+    title: "Why Choose Landlord Kingdom?",
+    propertyManagement: {
+      title: "Property Management",
+      description:
+        "Easily manage all your properties in one centralized platform",
+    },
+    rentTracking: {
+      title: "Rent Tracking",
+      description:
+        "Track rent payments and manage tenant relationships effortlessly",
+    },
+    reporting: {
+      title: "Financial Reporting",
+      description:
+        "Generate detailed reports to track your property income and expenses",
+    },
+  },
+  cta: {
+    getStarted: "Get Started Today",
+    learnMore: "Learn More",
+    signUp: "Sign Up Now",
+    login: "Already have an account? Sign in",
+  },
+};
+
 export default {
   uploadImage,
   localReport,
@@ -921,6 +953,7 @@ export default {
   tenantApplications,
   changeAddressForm,
   activeLocalDetails,
+  landingPage,
   ownerRentDetails,
   breadcrumbs,
   localDetails,

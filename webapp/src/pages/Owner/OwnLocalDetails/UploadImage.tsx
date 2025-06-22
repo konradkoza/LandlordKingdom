@@ -80,7 +80,7 @@ const UploadImageCard: FC<UploadImageCardProps> = ({ id, images }) => {
           >
             {t("uploadImage.upload")}
           </Button>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-col flex-wrap items-center gap-1">
             {images.map((imageId) => (
               <ImageDisplay key={imageId} id={imageId} />
             ))}

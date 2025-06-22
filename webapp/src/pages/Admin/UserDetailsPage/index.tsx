@@ -139,23 +139,6 @@ const UserDetailsPage: FC = () => {
                     }
                   />
                   <DataField
-                    className="col-span-2"
-                    label={t("userDetailsPage.active")}
-                    value={data?.data.active ? t("common.yes") : t("common.no")}
-                  />
-                  <DataField
-                    label={t("userDetailsPage.lastSuccessfulLogin")}
-                    value={data?.data.lastSuccessfulLogin ?? "-"}
-                  />
-                  <DataField
-                    label={t("userDetailsPage.lastFailedLogin")}
-                    value={data?.data.lastFailedLogin ?? "-"}
-                  />
-                  <DataField
-                    label={t("userDetailsPage.timezone")}
-                    value={data?.data.timezone ?? "-"}
-                  />
-                  <DataField
                     label={t("userDetailsPage.language")}
                     value={data?.data.language ?? "-"}
                   />

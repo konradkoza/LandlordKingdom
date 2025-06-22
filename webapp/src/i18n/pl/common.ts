@@ -921,6 +921,38 @@ const uploadImage = {
   uploadImageError: "Błąd podczas dodawania zdjęcia",
 };
 
+const landingPage = {
+  title: "Landlord Kingdom",
+  subtitle: "Twoje Rozwiązanie do Zarządzania Nieruchomościami",
+  description:
+    "Zarządzaj swoimi nieruchomościami z łatwością. Landlord Kingdom to platforma, która umożliwia właścicielom nieruchomości zarządzanie swoimi lokalami, wynajmami i płatnościami w jednym miejscu.",
+  viewLocals: "Sprawdź dostępne lokale",
+  features: {
+    title: "Dlaczego wybrać Landlord Kingdom?",
+    propertyManagement: {
+      title: "Zarządzanie Nieruchomościami",
+      description:
+        "Łatwo zarządzaj wszystkimi swoimi nieruchomościami w jednej scentralizowanej platformie",
+    },
+    rentTracking: {
+      title: "Śledzenie Wynajmu",
+      description:
+        "Śledź płatności czynszu i zarządzaj relacjami z najemcami bez wysiłku",
+    },
+    reporting: {
+      title: "Raporty Finansowe",
+      description:
+        "Generuj szczegółowe raporty, aby śledzić dochody i wydatki z nieruchomości",
+    },
+  },
+  cta: {
+    getStarted: "Zacznij Dzisiaj",
+    learnMore: "Dowiedz się więcej",
+    signUp: "Zarejestruj się teraz",
+    login: "Masz już konto? Zaloguj się",
+  },
+};
+
 export default {
   uploadImage,
   localReport,
@@ -975,6 +1007,7 @@ export default {
   localFilter,
   pageChanger,
   notApprovedActionsPage,
+  landingPage,
   light: "Jasny",
   dark: "Ciemny",
   reactivationSuccess: "Konto zostało aktywowane, możesz się zalogować",

@@ -13,7 +13,7 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { t } from "i18next";
 import { FC, useState } from "react";
 import { LoadingData } from "@/components/LoadingData";
-import { NavLink, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent";
 import { getAddressString } from "@/utils/address";
 import {
@@ -85,9 +85,6 @@ const Locals: FC = () => {
       <div className="flex flex-row items-center justify-between">
         {breadCrumbs}
         <div className="flex flex-row gap-4">
-          <Button asChild className="self-end">
-            <NavLink to="report">{t("ownerLocals.report")}</NavLink>
-          </Button>
           <RefreshQueryButton queryKeys={["ownLocals"]} />
         </div>
       </div>
@@ -102,10 +99,7 @@ const Locals: FC = () => {
           )}
           {locals?.length != 0 &&
             locals?.map((local) => (
-              <li
-                key={local.id}
-                className="min-w-[35rem] max-w-[35rem] flex-1 "
-              >
+              <li key={local.id} className="min-w-[35rem] max-w-[35rem] flex-1">
                 <Card className="relative">
                   <Button
                     onClick={() => navigate(`local/${local.id}`)}

@@ -29,17 +29,6 @@ services:
     depends_on:
       - db
 
-#  nginx:
-#    image: nginx:1.21.3
-#    container_name: landlordkingdom-nginx
-#    restart: always
-#    ports:
-#      - "9090:80"
-#    networks:
-#      - my_network
-#    volumes:
-#      - ./nginxdev.conf:/etc/nginx/nginx.conf
-
   smtp4dev:
     image: rnwood/smtp4dev
     container_name: smtp4dev

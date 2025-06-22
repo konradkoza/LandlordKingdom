@@ -40,12 +40,6 @@ Application will be available at [http://localhost:3000](http://localhost:3000) 
 
 Emails are sent to smtp4dev server, which is available at [http://localhost:5000](http://localhost:5000)
 
-## How to test
-To run the tests, you need to have installed:
-- [Docker](https://www.docker.com/get-started/)
-- [Java 21](https://jdk.java.net/21/)
-- [Maven](https://maven.apache.org/download.cgi)
-
 To run the tests from project directory, run the following command:
 ```bash
 mvn package
@@ -54,6 +48,7 @@ mvn verify
 
 ## Used technologies Backend
 - [Java 21](https://jdk.java.net/21/)
+- [Spring Boot 3.2.4](https://spring.io/projects/spring-boot)
 - [Spring Framework 6.1.6](https://spring.io/projects/spring-framework)
 - [Spring Security 6.2.4](https://spring.io/projects/spring-security)
 - [Spring Data JPA 3.2.4](https://spring.io/projects/spring-data-jpa)
@@ -86,9 +81,6 @@ mvn verify
 - [nginx 1.21.3](https://www.nginx.com/)
 
 ## Authors
-- Kacper Kafara
-  [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn" height=16/>](https://www.linkedin.com/in/kacperkafara/)
-  [<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" height=16/>](https://github.com/KacperKafara)
 - Konrad Koza
   [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn" height=16/>](https://www.linkedin.com/in/konrad-koza1/)
   [<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" height=16/>](https://github.com/Konradkoza)
@@ -98,6 +90,3 @@ mvn verify
 - Marcel Badek
   [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn" height=16/>](https://www.linkedin.com/in/marcel-badek/)
   [<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" height=16/>](https://github.com/marcelbadek)
-- Jakub Górski
-  [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn" height=16/>](https://www.linkedin.com/in/gorski-jakub/)
-  [<img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" height=16/>](https://github.com/gorskij)
