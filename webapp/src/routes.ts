@@ -55,6 +55,7 @@ const OwnerRentDetailsPage = loadable(
 const OwnApplicationPage = loadable(
   () => import("./pages/Tenant/Applications")
 );
+const LandingPage = loadable(() => import("./pages/Public"));
 
 const AddLocalPage = loadable(() => import("./pages/Owner/addLocalForm"));
 
@@ -114,8 +115,9 @@ export const UnprotectedRoutes: RouteObject[] = [
   {
     Component: BaseMeLayout,
     children: [
-      { index: true, Component: ActiveLocalsPage },
+      { index: true, Component: LandingPage },
       { path: "/tenant/locals/:id", Component: ActiveLocalDetailsPage },
+      { path: "locals", Component: ActiveLocalsPage },
     ],
   },
   { path: "/login", Component: LoginPage },
