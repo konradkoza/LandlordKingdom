@@ -14,15 +14,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RefreshQueryButton from "@/components/RefreshQueryButton";
-import { useTimezoneSelect, allTimezones } from "react-timezone-select";
 import { useNavigate, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 const MePage: FC = () => {
-  const { options } = useTimezoneSelect({
-    labelStyle: "abbrev",
-    timezones: allTimezones,
-    displayValue: "UTC",
-  });
   const { t } = useTranslation();
   const { data } = useMeQuery();
   const [searchParams] = useSearchParams();
@@ -62,7 +56,7 @@ const MePage: FC = () => {
               <RefreshQueryButton queryKeys={["meData"]} />
             </div>
             <div>
-              <CardHeader className=" items-center">
+              <CardHeader className="items-center">
                 <CardTitle>{t("mePage.basicInformation")}</CardTitle>
               </CardHeader>
               <CardContent>
@@ -79,32 +73,6 @@ const MePage: FC = () => {
                     <DataField
                       label={t("mePage.emailLabel")}
                       value={data?.data.email ?? "-"}
-                    />
-                    <div className="col-start-1">
-                      <DataField
-                        label={t("mePage.lastSuccessfullLoginDateLabel")}
-                        value={data?.data.lastSuccessfulLogin ?? "-"}
-                      />
-                    </div>
-                    <DataField
-                      label={t("mePage.lastSuccessfillLoginIPLabel")}
-                      value={data?.data.lastSuccessfulLoginIP ?? "-"}
-                    />
-                    <DataField
-                      label={t("mePage.lastFailedfullLoginDateLabel")}
-                      value={data?.data.lastFailedLogin ?? "-"}
-                    />
-                    <DataField
-                      label={t("mePage.lastFailedfillLoginIPLabel")}
-                      value={data?.data.lastFailedLoginIP ?? "-"}
-                    />
-                    <DataField
-                      label={t("mePage.timezone")}
-                      className="col-span-2"
-                      value={
-                        options.find((x) => x.value === data?.data.timezone)
-                          ?.label ?? "-"
-                      }
                     />
                   </div>
                 </div>
@@ -149,7 +117,7 @@ const MePage: FC = () => {
                 <UpdateEmailAddress />
               </div>
             </CardContent>
-            <CardDescription className="flex justify-center px-6 pb-5 ">
+            <CardDescription className="flex justify-center px-6 pb-5">
               {t("mePage.changeEmailDescription")}
             </CardDescription>
           </Card>

@@ -24,7 +24,12 @@ const ImageDisplayComponent: FC<ImageComponentProps> = ({ id }) => {
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => handleDelete(id)}
     >
-      <img key={id} src={src} className="max-h-96 max-w-xl" alt="local" />
+      <img
+        key={id}
+        src={src}
+        className="h-auto max-h-96 max-w-xl"
+        alt="local"
+      />
 
       {isHovered && (
         <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">

@@ -1,6 +1,6 @@
 import { useGetOwnLocalDetails } from "@/data/local/useGetOwnLocalDetails";
 import { FC } from "react";
-import { NavLink, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   Card,
   CardContent,
@@ -19,7 +19,6 @@ import UpdateLocalDetailsForm from "@/pages/Owner/OwnLocalDetails/UpdateOwnLocal
 import LeaveLocalCard from "./LeaveLocalCard";
 import { LocalState } from "@/@types/localState";
 import LocalApplications from "@/pages/Owner/OwnLocalDetails/ShowApplications.tsx";
-import { Button } from "@/components/ui/button";
 import { toLocaleFixed } from "@/utils/currencyFormat";
 import UploadImageCard from "./UploadImage";
 import { useGetLocalImages } from "@/data/local/useImage";
@@ -71,9 +70,6 @@ const OwnLocalDetailsPage: FC = () => {
                   {t("ownLocalDetails.uploadImage")}
                 </TabsTrigger>
               </TabsList>
-              <Button asChild>
-                <NavLink to="report">{t("ownerLocals.report")}</NavLink>
-              </Button>
             </div>
             <TabsContent value="basic">
               <Card className="relative mb-2">
@@ -182,7 +178,7 @@ const OwnLocalDetailsPage: FC = () => {
                     />
                   </div>
                 </CardContent>
-                <CardDescription className="flex justify-center px-6 pb-5 ">
+                <CardDescription className="flex justify-center px-6 pb-5">
                   {t("ownLocalDetails.changeFixedFeeDescription")}
                 </CardDescription>
               </Card>

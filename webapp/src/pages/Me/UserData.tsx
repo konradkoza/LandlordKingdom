@@ -1,11 +1,11 @@
 import ConfirmDialog from "@/components/ConfirmDialog";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast.ts";
 import { useMeMutation, useMeQuery } from "@/data/meQueries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TFunction } from "i18next";
@@ -22,8 +23,6 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
-import { useTimezoneSelect, allTimezones } from "react-timezone-select";
-import {toast} from "@/components/ui/use-toast.ts";
 
 const updateUserSchema = (t: TFunction) =>
   z.object({
@@ -36,11 +35,6 @@ const updateUserSchema = (t: TFunction) =>
 type UpdateUserSchema = z.infer<ReturnType<typeof updateUserSchema>>;
 
 const UserData: FC = () => {
-  const { options } = useTimezoneSelect({
-    labelStyle: "abbrev",
-    timezones: allTimezones,
-    displayValue: "UTC",
-  });
   const { t } = useTranslation();
   const { data } = useMeQuery();
   const putMutation = useMeMutation();
@@ -57,11 +51,11 @@ const UserData: FC = () => {
   const handleUserSubmit = form.handleSubmit((request) => {
     let etag: string = data?.headers.etag;
     if (!etag) {
-        toast({
-            variant: "destructive",
-            title: t("userDataPage.error"),
-        })
-        return;
+      toast({
+        variant: "destructive",
+        title: t("userDataPage.error"),
+      });
+      return;
     }
     etag = etag.substring(1, etag.length - 1);
     putMutation.mutate({ request, etag });
@@ -122,35 +116,7 @@ const UserData: FC = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="timezone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("userDataPage.timeZone")}</FormLabel>
-              <div>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <ConfirmDialog
           className="mt-5"
           buttonText={t("common.update")}
