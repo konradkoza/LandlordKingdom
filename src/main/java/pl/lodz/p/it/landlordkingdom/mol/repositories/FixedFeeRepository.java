@@ -22,6 +22,9 @@ public interface FixedFeeRepository extends JpaRepository<FixedFee, UUID> {
     @NonNull
     FixedFee saveAndFlush(@NonNull FixedFee fixedFee);
 
+    @Query("SELECT fee FROM FixedFee fee WHERE fee.rent.id = :rentId AND fee.date BETWEEN :startDate AND :endDate")
+    Page<FixedFee> findRentVariableFeesBetween(UUID rentId, LocalDate startDate, LocalDate endDate, Pageable pageable);
+
     @Query("SELECT fee FROM FixedFee fee WHERE fee.rent.id = :rentId AND (fee.rent.owner.user.id = :userId OR fee.rent.tenant.user.id = :userId) AND fee.date BETWEEN :startDate AND :endDate")
     Page<FixedFee> findRentVariableFeesBetween(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable);
 

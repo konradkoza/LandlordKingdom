@@ -13,11 +13,8 @@ import pl.lodz.p.it.landlordkingdom.messages.UserExceptionMessages;
 import pl.lodz.p.it.landlordkingdom.model.*;
 import pl.lodz.p.it.landlordkingdom.model.Application;
 import pl.lodz.p.it.landlordkingdom.model.Rent;
-import pl.lodz.p.it.landlordkingdom.mol.repositories.TenantMolRepository;
-import pl.lodz.p.it.landlordkingdom.mol.repositories.ApplicationRepository;
-import pl.lodz.p.it.landlordkingdom.mol.repositories.FixedFeeRepository;
-import pl.lodz.p.it.landlordkingdom.mol.repositories.LocalRepository;
-import pl.lodz.p.it.landlordkingdom.mol.repositories.RentRepository;
+import pl.lodz.p.it.landlordkingdom.mok.repositories.AdministratorRepository;
+import pl.lodz.p.it.landlordkingdom.mol.repositories.*;
 import pl.lodz.p.it.landlordkingdom.model.Tenant;
 import pl.lodz.p.it.landlordkingdom.mol.services.ApplicationService;
 import pl.lodz.p.it.landlordkingdom.mol.services.MolEmailService;
@@ -28,6 +25,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,9 +38,16 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final FixedFeeRepository fixedFeeRepository;
     private final TenantMolRepository tenantRepository;
     private final MolEmailService emailServiceImpl;
+    private final AdministratorMolRepository administratorRepository;
 
     @Override
     public List<Application> getLocalApplications(UUID localId, UUID ownerId) {
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(ownerId);
+
+        if (administrator.isPresent()) {
+            return applicationRepository.findByLocalId(localId);
+        }
+
         return applicationRepository.findByLocalIdAndLocal_OwnerId(localId, ownerId);
     }
 
@@ -65,7 +70,15 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new WrongEndDateException(RentExceptionMessages.WRONG_END_DATE, ErrorCodes.WRONG_END_DATE);
         }
 
-        Application application = applicationRepository.findApplicationForOwner(applicationId, ownerUserId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        Application application;
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(ownerUserId);
+
+        if (administrator.isPresent()) {
+            application = applicationRepository.findById(applicationId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        } else {
+            application = applicationRepository.findApplicationForOwner(applicationId, ownerUserId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        }
+
         List<Application> restApplications = applicationRepository.findByLocalId(application.getLocal().getId());
         Tenant tenant = application.getTenant();
         Owner owner = application.getLocal().getOwner();
@@ -102,7 +115,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void rejectApplication(UUID applicationId, UUID ownerUserId) throws NotFoundException {
-        Application application = applicationRepository.findApplicationForOwner(applicationId, ownerUserId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        Application application;
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(ownerUserId);
+
+        if (administrator.isPresent()) {
+            application = applicationRepository.findById(applicationId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        } else {
+            application = applicationRepository.findApplicationForOwner(applicationId, ownerUserId).orElseThrow(() -> new NotFoundException(ApplicationExceptionMessages.NOT_FOUND, ErrorCodes.APPLICATION_NOT_FOUND));
+        }
         User user = application.getTenant().getUser();
         Local local = application.getLocal();
 

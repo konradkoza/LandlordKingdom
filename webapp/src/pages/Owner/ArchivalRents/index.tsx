@@ -16,16 +16,27 @@ import { toLocaleFixed } from "@/utils/currencyFormat";
 import { t } from "i18next";
 import { RefreshCw } from "lucide-react";
 import { FC, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const ArchivalOwnerRentsPage: FC = () => {
-  const breadCrumbs = useBreadcrumbs([
-    { title: t("currentOwnerRents.title"), path: "/owner" },
-    {
-      title: t("currentOwnerRents.archivalRents"),
-      path: "/owner/archival-rents",
-    },
-  ]);
+  const location = useLocation();
+  const breadCrumbs = useBreadcrumbs(
+    location.pathname.startsWith("/admin/")
+      ? [
+          { title: t("ownerRentDetails.adminMainPage"), path: "/admin" },
+          {
+            title: t("currentOwnerRents.archivalRents"),
+            path: "/admin/archival-rents",
+          },
+        ]
+      : [
+          { title: t("currentOwnerRents.title"), path: "/owner" },
+          {
+            title: t("currentOwnerRents.archivalRents"),
+            path: "/owner/archival-rents",
+          },
+        ]
+  );
   const [pageNumber, setPageNumber] = useState(0);
   const [pageSize, setPageSize] = useState(6);
   const { data: rentsPage, isLoading } = useGetOwnerArchivalRents({

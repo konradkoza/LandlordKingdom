@@ -14,16 +14,24 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { t } from "i18next";
 import { FC, useState } from "react";
 import { ChangeEndDate } from "./ChangeEndDate";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { getAddressString } from "@/utils/address";
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent.tsx";
 import { RefreshCw } from "lucide-react";
 
 const CurrentOwnerRentsPage: FC = () => {
-  const breadCrumbs = useBreadcrumbs([
-    { title: t("currentOwnerRents.title"), path: "/owner" },
-    { title: t("currentOwnerRents.rents"), path: "/owner/current-rents" },
-  ]);
+  const location = useLocation();
+  const breadCrumbs = useBreadcrumbs(
+    location.pathname.startsWith("/admin/")
+      ? [
+          { title: t("ownerRentDetails.adminMainPage"), path: "/admin" },
+          { title: t("currentOwnerRents.rents"), path: "/admin/current-rents" },
+        ]
+      : [
+          { title: t("currentOwnerRents.title"), path: "/owner" },
+          { title: t("currentOwnerRents.rents"), path: "/owner/current-rents" },
+        ]
+  );
   const [pageNumber, setPageNumber] = useState(0);
   const [pageSize, setPageSize] = useState(6);
   const { data: rentsPage, isLoading } = useGetOwnerCurrentRents({

@@ -75,6 +75,20 @@ const AdminRoutes: RouteObject[] = [
   { path: "users/:id", Component: UserDetailsPage },
   { path: "not-approved", Component: NotApprovedActionsPage },
   { path: "add-local", Component: AddLocalPage },
+  {
+    path: "current-rents",
+    children: [
+      { index: true, Component: CurrentOwnerRentsPage },
+      { path: "rent/:id", Component: OwnerRentDetailsPage },
+    ],
+  },
+  {
+    path: "archival-rents",
+    children: [
+      { index: true, Component: ArchivalOwnerRentsPage },
+      { path: "rent/:id", Component: OwnerRentDetailsPage },
+    ],
+  },
 ];
 const OwnerRoutes: RouteObject[] = [
   { index: true, Component: OwnerPage },

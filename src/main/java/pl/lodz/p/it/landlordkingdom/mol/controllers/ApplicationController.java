@@ -78,10 +78,10 @@ public class ApplicationController {
     }
 
     @PostMapping("/applications/{id}")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<RentForOwnerResponse> acceptApplication(@PathVariable UUID id, @RequestBody AcceptApplicationRequest request) {
-        UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());
         try {
+            UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());
             Rent rent = applicationService.acceptApplication(id, userId, LocalDate.parse(request.endDate()));
             return ResponseEntity.status(HttpStatus.CREATED).body(RentMapper.rentForOwnerResponse(rent));
         } catch (NotFoundException e) {
@@ -94,7 +94,7 @@ public class ApplicationController {
     }
 
     @DeleteMapping("/applications/{id}")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<Void> rejectApplication(@PathVariable UUID id) {
         try {
             UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());

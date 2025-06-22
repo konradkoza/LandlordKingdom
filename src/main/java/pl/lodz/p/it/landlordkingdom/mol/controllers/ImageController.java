@@ -30,7 +30,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping(path = "/upload/{localId}", consumes = "multipart/form-data")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<Void> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable UUID localId) throws NotFoundException {
         try {
             imageService.store(file, localId);
@@ -57,7 +57,7 @@ public class ImageController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<Void> deleteImage(@PathVariable UUID id) throws NotFoundException {
         imageService.deleteImage(id);
         return ResponseEntity.ok().build();

@@ -41,7 +41,7 @@ public class RentController {
     private final FixedFeeService fixedFeeService;
 
     @PostMapping("/{id}/payments")
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
+    @PreAuthorize("hasAnyRole('OWNER', 'TENANT', 'ADMINISTRATOR')")
     public ResponseEntity<RentPaymentsResponse> getRentPayments(@PathVariable UUID id,
                                                                 @RequestBody PaymentsAndFeesRequest rentPaymentsRequest,
                                                                 @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
@@ -61,7 +61,7 @@ public class RentController {
     }
 
     @PostMapping("/{id}/fixed-fees")
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
+    @PreAuthorize("hasAnyRole('OWNER', 'TENANT', 'ADMINISTRATOR')")
     public ResponseEntity<RentFixedFeesResponse> getFixedFees(@PathVariable UUID id,
                                                               @RequestBody PaymentsAndFeesRequest rentPaymentsRequest,
                                                               @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
@@ -81,7 +81,7 @@ public class RentController {
     }
 
     @PostMapping("/{id}/variable-fees")
-    @PreAuthorize("hasAnyRole('OWNER', 'TENANT')")
+    @PreAuthorize("hasAnyRole('OWNER', 'TENANT', 'ADMINISTRATOR')")
     public ResponseEntity<RentVariableFeesResponse> getVariableFees(@PathVariable UUID id,
                                                                     @RequestBody PaymentsAndFeesRequest rentPaymentsRequest,
                                                                     @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,

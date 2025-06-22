@@ -783,6 +783,7 @@ const changeFixedFee = {
 const ownerRentDetails = {
   error: "Error while fetching rent details",
   ownerMainPage: "Owner",
+  adminMainPage: "Administrator",
   rents: "Current rents",
   rent: "Rent of local ",
   rentDetails: "Rent details",

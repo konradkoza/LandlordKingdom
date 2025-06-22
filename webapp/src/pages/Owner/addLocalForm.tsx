@@ -18,7 +18,7 @@ import { TFunction } from "i18next";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { InputWithText } from "@/components/InputWithText";
 import LoadingButton from "@/components/LoadingButton";
-import { useSearchParams } from "react-router";
+import { useLocation, useSearchParams } from "react-router";
 
 const addLocalSchema = (t: TFunction) =>
   z.object({
@@ -82,11 +82,20 @@ const AddLocalForm: FC = () => {
     },
   });
 
-  const breadcrumbs = useBreadcrumbs([
-    { title: t("ownerLocals.title"), path: "/owner" },
-    { title: t("ownerLocals.locals"), path: "/owner/locals" },
-    { title: t("addLocalPage.title"), path: "/owner/locals/add" },
-  ]);
+  const location = useLocation();
+  const breadcrumbs = useBreadcrumbs(
+    location.pathname.startsWith("/admin/")
+      ? [
+          { title: t("ownerLocals.title"), path: "/admin" },
+          { title: t("ownerLocals.locals"), path: "/admin/locals" },
+          { title: t("addLocalPage.title"), path: "/admin/locals/add" },
+        ]
+      : [
+          { title: t("ownerLocals.title"), path: "/owner" },
+          { title: t("ownerLocals.locals"), path: "/owner/locals" },
+          { title: t("addLocalPage.title"), path: "/owner/locals/add" },
+        ]
+  );
 
   const onSubmit: SubmitHandler<AddLocalFormData> = async (data) => {
     await addLocal(

@@ -140,7 +140,15 @@ public class LocalServiceImpl implements LocalService {
 
     @Override
     public Local leaveLocal(UUID userId, UUID localId) throws InvalidLocalState, NotFoundException {
-        Local local = localRepository.findByOwner_User_IdAndId(userId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        Local local;
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(userId);
+
+        if (administrator.isPresent()) {
+            local = localRepository.findById(localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        } else {
+            local = localRepository.findByOwner_User_IdAndId(userId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        }
+
         if (local.getState() != LocalState.INACTIVE) {
             throw new InvalidLocalState(LocalExceptionMessages.LOCAL_NOT_INACTIVE, ErrorCodes.LOCAL_NOT_INACTIVE);
         }
@@ -152,7 +160,13 @@ public class LocalServiceImpl implements LocalService {
 
     @Override
     public Local setFixedFee(UUID localId, UUID ownerId, BigDecimal marginFee, BigDecimal rentalFee, String tagValue) throws NotFoundException, ApplicationOptimisticLockException {
-        Local local = localRepository.findByOwner_User_IdAndId(ownerId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(ownerId);
+        Local local;
+        if (administrator.isPresent()) {
+            local = localRepository.findById(localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        } else {
+            local = localRepository.findByOwner_User_IdAndId(ownerId, localId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+        }
 
         if (!signVerifier.verifySignature(local.getId(), local.getVersion(), tagValue)) {
             throw new ApplicationOptimisticLockException(OptimisticLockExceptionMessages.LOCAL_ALREADY_MODIFIED_DATA, ErrorCodes.OPTIMISTIC_LOCK);

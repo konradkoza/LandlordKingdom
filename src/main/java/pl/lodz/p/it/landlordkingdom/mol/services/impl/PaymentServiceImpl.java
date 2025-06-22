@@ -13,6 +13,8 @@ import pl.lodz.p.it.landlordkingdom.exceptions.handlers.ErrorCodes;
 import pl.lodz.p.it.landlordkingdom.messages.LocalExceptionMessages;
 import pl.lodz.p.it.landlordkingdom.messages.RentExceptionMessages;
 import pl.lodz.p.it.landlordkingdom.model.*;
+import pl.lodz.p.it.landlordkingdom.mok.repositories.AdministratorRepository;
+import pl.lodz.p.it.landlordkingdom.mol.repositories.AdministratorMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.OwnerMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.PaymentRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.RentRepository;
@@ -31,17 +33,33 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final OwnerMolRepository ownerMolRepository;
     private final RentRepository rentRepository;
+    private final AdministratorMolRepository administratorRepository;
 
     @Override
     public Page<Payment> getRentPayments(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(userId);
+
+        if (administrator.isPresent()) {
+            return paymentRepository.findPaymentsBetweenDates(rentId, startDate, endDate, pageable);
+        }
+
         return paymentRepository.findPaymentsForOwnerBetweenDates(userId, rentId, startDate, endDate, pageable);
     }
 
     @Override
     public Payment create(UUID userId, UUID rentId, BigDecimal amount) throws NotFoundException, PaymentAlreadyExistsException, RentAlreadyEndedException {
-        Owner owner = ownerMolRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
-        Rent rent = rentRepository.findByOwnerIdAndId(owner.getId(), rentId)
-                .orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
+        Optional<Administrator> administrator = administratorRepository.findByUserIdAndActiveIsTrue(userId);
+        Rent rent;
+        Owner owner;
+
+        if (administrator.isPresent()) {
+            rent = rentRepository.findById(rentId).orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
+            owner = rent.getOwner();
+        } else {
+            owner = ownerMolRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException(LocalExceptionMessages.LOCAL_NOT_FOUND, ErrorCodes.LOCAL_NOT_FOUND));
+            rent = rentRepository.findByOwnerIdAndId(owner.getId(), rentId)
+                    .orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
+        }
 
         if (rent.getEndDate().isBefore(LocalDate.now())) {
             throw new RentAlreadyEndedException(

@@ -78,7 +78,7 @@ public class MeOwnerController {
     }
 
     @GetMapping("/locals/{id}/applications")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<List<GetOwnLocalApplicationsResponse>> getOwnLocalApplications(@PathVariable UUID id) {
         UUID ownerId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());
         return ResponseEntity.ok(ApplicationMapper.getOwnLocalApplicationsResponses(applicationService.getLocalApplications(id, ownerId)));
@@ -106,7 +106,7 @@ public class MeOwnerController {
     }
 
     @GetMapping("/rents/current")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<RentForOwnerResponsePage> getCurrentRents(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
@@ -117,7 +117,7 @@ public class MeOwnerController {
     }
 
     @GetMapping("/owner/rents/archival")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<RentForOwnerResponsePage> getArchivalRents(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
@@ -128,7 +128,7 @@ public class MeOwnerController {
     }
 
     @PostMapping("/rents/{id}/payment")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     @Retryable(retryFor = {RuntimeException.class})
     public ResponseEntity<PaymentResponse> payRent(@PathVariable UUID id, @RequestBody @Valid NewPaymentRequest newPaymentRequest) throws NotFoundException {
         UUID userId = UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -141,7 +141,7 @@ public class MeOwnerController {
     }
 
     @PatchMapping("/locals/{id}/leave")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<LeaveLocalResponse> leaveLocal(@PathVariable UUID id) {
         try {
             UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());
@@ -155,7 +155,7 @@ public class MeOwnerController {
     }
 
     @PatchMapping("/locals/{id}/fixed-fee")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<GetOwnLocalsResponse> setFixedFee(@PathVariable UUID id, @RequestBody @Valid SetFixedFeeRequest setFixedFeeRequest, @RequestHeader(HttpHeaders.IF_MATCH) String tagValue) throws NotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -169,7 +169,7 @@ public class MeOwnerController {
     }
 
     @PatchMapping("/rents/{id}/end-date")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<RentForOwnerResponse> editEndDate(@PathVariable UUID id, @RequestBody @Valid SetEndDateRequest setEndDateRequest) {
         try {
             UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());
@@ -191,7 +191,7 @@ public class MeOwnerController {
     }
 
     @GetMapping("/owner/rents/{id}")
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<RentForOwnerResponse> getOwnerRent(@PathVariable UUID id) {
         try {
             UUID userId = UUID.fromString(((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSubject());

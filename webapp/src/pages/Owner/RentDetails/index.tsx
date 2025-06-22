@@ -2,7 +2,7 @@ import { FC } from "react";
 import RentInformation from "./RentInformation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useOwnerRent } from "@/data/rent/useOwnerRent";
 import { RentPayments } from "@/components/RentPayments";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
@@ -20,25 +20,48 @@ const OwnerRentDetailsPage: FC = () => {
     new Date(data?.endDate ?? Date()) < new Date()
       ? "/owner/archival-rents"
       : "/owner/current-rents";
-  const breadcrumbs = useBreadcrumbs([
-    { title: t("ownerRentDetails.ownerMainPage"), path: "/owner" },
-    {
-      title:
-        path === "/owner/current-rents"
-          ? t("ownerRentDetails.rents")
-          : t("ownerRentDetails.archivalRents"),
-      path: path ?? "/owner/current-rents",
-    },
-    {
-      title:
-        `${
-          path === "/owner/current-rents"
-            ? t("ownerRentDetails.rents")
-            : t("ownerRentDetails.archivalRents")
-        } ${data?.local.name ?? "Not found"}` ,
-      path: `${path}/rent/${id ?? ""}`,
-    },
-  ]);
+  const location = useLocation();
+  const breadcrumbs = useBreadcrumbs(
+    location.pathname.startsWith("/admin/")
+      ? [
+          { title: t("ownerRentDetails.adminMainPage"), path: "/admin" },
+          {
+            title:
+              path === "/owner/current-rents"
+                ? t("ownerRentDetails.rents")
+                : t("ownerRentDetails.archivalRents"),
+            path:
+              path.replace("/owner/", "/admin/") ??
+              "/owner/current-rents".replace("/owner/", "/admin/"),
+          },
+          {
+            title: `${
+              path === "/owner/current-rents"
+                ? t("ownerRentDetails.rents")
+                : t("ownerRentDetails.archivalRents")
+            } ${data?.local.name ?? "Not found"}`,
+            path: `${path}/rent/${id ?? ""}`.replace("/owner/", "/admin/"),
+          },
+        ]
+      : [
+          { title: t("ownerRentDetails.ownerMainPage"), path: "/owner" },
+          {
+            title:
+              path === "/owner/current-rents"
+                ? t("ownerRentDetails.rents")
+                : t("ownerRentDetails.archivalRents"),
+            path: path ?? "/owner/current-rents",
+          },
+          {
+            title: `${
+              path === "/owner/current-rents"
+                ? t("ownerRentDetails.rents")
+                : t("ownerRentDetails.archivalRents")
+            } ${data?.local.name ?? "Not found"}`,
+            path: `${path}/rent/${id ?? ""}`,
+          },
+        ]
+  );
   if (isLoading) {
     return <LoadingData />;
   }

@@ -10,9 +10,11 @@ import pl.lodz.p.it.landlordkingdom.exceptions.NotFoundException;
 import pl.lodz.p.it.landlordkingdom.exceptions.VariableFeeAlreadyExistsException;
 import pl.lodz.p.it.landlordkingdom.exceptions.handlers.ErrorCodes;
 import pl.lodz.p.it.landlordkingdom.messages.RentExceptionMessages;
+import pl.lodz.p.it.landlordkingdom.model.Administrator;
 import pl.lodz.p.it.landlordkingdom.model.Rent;
 import pl.lodz.p.it.landlordkingdom.model.Tenant;
 import pl.lodz.p.it.landlordkingdom.model.VariableFee;
+import pl.lodz.p.it.landlordkingdom.mol.repositories.AdministratorMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.RentRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.TenantMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.VariableFeeRepository;
@@ -31,6 +33,7 @@ public class VariableFeeServiceImpl implements VariableFeeService {
     private final VariableFeeRepository variableFeeRepository;
     private final TenantMolRepository tenantRepository;
     private final RentRepository rentRepository;
+    private final AdministratorMolRepository administratorMolRepository;
 
     @Override
     public VariableFee create(UUID userId, UUID rentId, BigDecimal amount)
@@ -57,6 +60,12 @@ public class VariableFeeServiceImpl implements VariableFeeService {
 
     @Override
     public Page<VariableFee> getRentVariableFees(UUID rentId, UUID userId, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        Optional<Administrator> administrator = administratorMolRepository.findByUserIdAndActiveIsTrue(userId);
+
+        if (administrator.isPresent()) {
+            return variableFeeRepository.findRentVariableFeesBetween(rentId, startDate, endDate, pageable);
+        }
+
         return variableFeeRepository.findRentVariableFeesBetween(rentId, userId, startDate, endDate, pageable);
     }
 }

@@ -31,8 +31,14 @@ public interface RentRepository extends JpaRepository<Rent, UUID> {
 
     List<Rent> findAllByTenantIdAndEndDateBefore(UUID tenantId, LocalDate endDate);
 
+    @Query("SELECT r FROM Rent r WHERE r.endDate >= CURRENT_DATE")
+    Page<Rent> findCurrentRents(Pageable pageable);
+
     @Query("SELECT r FROM Rent r WHERE r.owner.user.id = :ownerId AND r.endDate >= CURRENT_DATE")
     Page<Rent> findCurrentRentsByOwnerId(UUID ownerId, Pageable pageable);
+
+    @Query("SELECT r FROM Rent r WHERE  r.endDate < CURRENT_DATE")
+    Page<Rent> findArchivalRents(Pageable pageable);
 
     @Query("SELECT r FROM Rent r WHERE r.owner.user.id = :userId AND r.endDate < CURRENT_DATE")
     Page<Rent> findArchivalRentsByOwnerUserId(UUID userId, Pageable pageable);

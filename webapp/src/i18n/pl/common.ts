@@ -792,6 +792,7 @@ const changeFixedFee = {
 const ownerRentDetails = {
   error: "Błąd podczas pobierania danych o wynajmie",
   ownerMainPage: "Właściciel",
+  adminMainPage: "Administrator",
   rents: "Obecne wynajmy",
   rent: "Wynajem lokalu ",
   rentDetails: "Szczegóły wynajmu",

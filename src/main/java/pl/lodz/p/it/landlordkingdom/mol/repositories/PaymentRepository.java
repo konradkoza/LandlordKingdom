@@ -26,6 +26,9 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     @NonNull
     Payment saveAndFlush(@NonNull Payment payment);
 
+    @Query("SELECT payment FROM Payment payment WHERE payment.rent.id = :rentId AND payment.date >= :startDate AND payment.date <= :endDate")
+    Page<Payment> findPaymentsBetweenDates(@Param("rentId") UUID rentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, Pageable pageable);
+
     @Query("SELECT payment FROM Payment payment WHERE payment.rent.id = :rentId AND (payment.rent.owner.user.id = :userId OR payment.rent.tenant.user.id = :userId) AND payment.date >= :startDate AND payment.date <= :endDate")
     Page<Payment> findPaymentsForOwnerBetweenDates(@Param("userId") UUID userId, @Param("rentId") UUID rentId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, Pageable pageable);
 
