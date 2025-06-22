@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         Optional<Payment> existingPayment = paymentRepository
-                .findByRentIdBetween(rentId, userId, DateUtils.getFirstDayOfCurrentWeek(), DateUtils.getLastDayOfCurrentWeek());
+                .findByRentIdBetween(rentId, userId, DateUtils.getFirstDayOfCurrentMonth(), DateUtils.getLastDayOfCurrentMonth());
 
         if (existingPayment.isPresent()) {
             throw new PaymentAlreadyExistsException(

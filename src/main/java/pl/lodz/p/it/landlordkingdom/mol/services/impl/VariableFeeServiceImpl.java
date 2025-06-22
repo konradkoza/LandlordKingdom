@@ -41,7 +41,7 @@ public class VariableFeeServiceImpl implements VariableFeeService {
                 .orElseThrow(() -> new NotFoundException(RentExceptionMessages.RENT_NOT_FOUND, ErrorCodes.RENT_NOT_FOUND));
 
         Optional<VariableFee> existingVariableFee = variableFeeRepository
-                .findByRentIdBetween(rentId, userId, DateUtils.getFirstDayOfCurrentWeek(), DateUtils.getLastDayOfCurrentWeek());
+                .findByRentIdBetween(rentId, userId, DateUtils.getFirstDayOfCurrentMonth(), DateUtils.getLastDayOfCurrentMonth());
 
         if (existingVariableFee.isPresent()) {
             throw new VariableFeeAlreadyExistsException(
