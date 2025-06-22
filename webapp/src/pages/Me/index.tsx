@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import RefreshQueryButton from "@/components/RefreshQueryButton";
 import { useTimezoneSelect, allTimezones } from "react-timezone-select";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 const MePage: FC = () => {
   const { options } = useTimezoneSelect({

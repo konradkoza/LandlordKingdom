@@ -28,7 +28,7 @@ import {
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useResetPassword } from "@/data/useResetPassword";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import UserFilter from "./UserFilter";
 import { useFilteredUsers } from "@/data/useFilteredUsers";
 import PageChanger from "./PageChanger";

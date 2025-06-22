@@ -12,7 +12,7 @@ import { t } from "i18next";
 import { FC, useState } from "react";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import RefreshQueryButton from "@/components/RefreshQueryButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { LoadingData } from "@/components/LoadingData";
 import { PageChangerComponent } from "../../Components/PageChangerComponent";
 import { getAddressString } from "@/utils/address";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,7 +24,6 @@ import { PageChangerComponent } from "@/pages/Components/PageChangerComponent";
 import { useGetActiveLocals } from "@/data/mol/useGetActiveLocals";
 import RefreshQueryButton from "@/components/RefreshQueryButton.tsx";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs.tsx";
-import { useUserFilter } from "@/data/useUserFilter";
 import { useUserStore } from "@/store/userStore";
 
 interface FilterLocals {

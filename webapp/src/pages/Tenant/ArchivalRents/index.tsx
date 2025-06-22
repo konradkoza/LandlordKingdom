@@ -14,7 +14,7 @@ import {
 import DataField from "@/components/DataField";
 import RefreshQueryButton from "@/components/RefreshQueryButton";
 import { LoadingData } from "@/components/LoadingData";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { toLocaleFixed } from "@/utils/currencyFormat";
 
 const ArchivalRentsPage: FC = () => {

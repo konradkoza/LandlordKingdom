@@ -1,6 +1,6 @@
 import { useVerifyAccount } from "@/data/useVerifyAccount";
 import { FC, useEffect, useRef } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 
 const VerifyAccountPage: FC = () => {
   const called = useRef(false);

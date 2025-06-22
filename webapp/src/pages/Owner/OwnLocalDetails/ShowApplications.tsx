@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetLocalApplications } from "@/data/local/useGetLocalApplications.ts";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import AcceptApplicationDialog from "./ApplicationDecision/AcceptApplicationDialog";
 import RejectApplicationDialog from "./ApplicationDecision/RejectApplicationDialog";
 import RefreshQueryButton from "@/components/RefreshQueryButton";

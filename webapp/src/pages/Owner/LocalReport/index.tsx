@@ -1,6 +1,6 @@
 import { useLocalReport } from "@/data/local/useLocalReport";
 import { FC } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import ReportPieChart from "./ReportPieChart";
 import ReportComboChart from "./ReportComboChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

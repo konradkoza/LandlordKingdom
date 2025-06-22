@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -32,17 +33,19 @@ const RoleRequestDialogComponent: FC = () => {
           <h2 className="font-bold">{t("roleRequestDialog.howDoesItWork")}</h2>
           <p>{t("roleRequestDialog.description")}</p>
 
-          <Button
-            disabled={!isError}
-            onClick={async () => {
-              await createRoleRequest();
-            }}
-          >
-            {t("roleRequestDialog.requestRoleButton")}
-          </Button>
-          <span className="text-center text-sm">
-            {t("roleRequestDialog.requestOwnerRoleDescription")}
-          </span>
+          <DialogFooter className="sm:flex-col sm:justify-normal">
+            <Button
+              disabled={!isError}
+              onClick={async () => {
+                await createRoleRequest();
+              }}
+            >
+              {t("roleRequestDialog.requestRoleButton")}
+            </Button>
+            <span className="text-center text-sm">
+              {t("roleRequestDialog.requestOwnerRoleDescription")}
+            </span>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

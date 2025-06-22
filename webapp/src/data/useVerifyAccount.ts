@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { t } from "i18next";
 import { ErrorCode } from "@/@types/errorCode";

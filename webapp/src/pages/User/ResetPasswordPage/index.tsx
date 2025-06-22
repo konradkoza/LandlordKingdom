@@ -13,7 +13,7 @@ import { TFunction } from "i18next";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import { z } from "zod";
 import { useChangeUserPasswordWithToken } from "@/data/useChangeUserPassword";
 import LoadingButton from "@/components/LoadingButton";

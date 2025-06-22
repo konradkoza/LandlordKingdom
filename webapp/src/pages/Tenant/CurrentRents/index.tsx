@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { LoadingData } from "@/components/LoadingData";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { toLocaleFixed } from "@/utils/currencyFormat";
 
 const CurrentRentsPage: FC = () => {

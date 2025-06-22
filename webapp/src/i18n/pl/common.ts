@@ -264,6 +264,7 @@ const navLinks = {
   archivalRents: "Archiwalne wynajmy",
   addLocal: "Dodaj lokal",
   applications: "Wnioski o wynajem",
+  menu: "Menu",
 };
 
 const userDataPage = {

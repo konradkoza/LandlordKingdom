@@ -2,7 +2,7 @@ import { FC } from "react";
 import RentInformation from "./RentInformation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useOwnerRent } from "@/data/rent/useOwnerRent";
 import { RentPayments } from "@/components/RentPayments";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
@@ -35,7 +35,7 @@ const OwnerRentDetailsPage: FC = () => {
           path === "/owner/current-rents"
             ? t("ownerRentDetails.rents")
             : t("ownerRentDetails.archivalRents")
-        } ${data?.local.name ?? "Not found"}` ?? "",
+        } ${data?.local.name ?? "Not found"}` ,
       path: `${path}/rent/${id ?? ""}`,
     },
   ]);

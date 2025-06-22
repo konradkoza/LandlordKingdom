@@ -11,7 +11,7 @@ import { decodeJwt } from "@/utils/jwt";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { api } from "@/data/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "./ui/use-toast";
 
 const SessionExpiredDialog: FC = () => {

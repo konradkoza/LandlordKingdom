@@ -1,6 +1,6 @@
 import { useGetOwnLocalDetails } from "@/data/local/useGetOwnLocalDetails";
 import { FC } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router";
 import {
   Card,
   CardContent,

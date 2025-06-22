@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { Role, useUserStore } from "@/store/userStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,7 +26,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useMeQuery } from "@/data/meQueries";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export type NavigationLink = {
   path: string;
@@ -110,6 +110,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children, type, links = [] }) => {
               <GiHamburgerMenu />
             </DrawerTrigger>
             <DrawerContent className="h-screen w-2/5 min-w-48 rounded-none pl-5">
+              <DialogTitle className="hidden">{t("navLinks.menu")}</DialogTitle>
               <div className="flex flex-col gap-2">
                 <DrawerClose className="self-end">
                   <Button

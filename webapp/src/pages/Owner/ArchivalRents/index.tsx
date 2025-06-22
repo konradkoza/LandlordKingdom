@@ -16,7 +16,7 @@ import { toLocaleFixed } from "@/utils/currencyFormat";
 import { t } from "i18next";
 import { RefreshCw } from "lucide-react";
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const ArchivalOwnerRentsPage: FC = () => {
   const breadCrumbs = useBreadcrumbs([

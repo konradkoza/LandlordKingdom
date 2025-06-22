@@ -15,7 +15,7 @@ import { useUnapprovedLocals } from "@/data/local/useUnapprovedLocals";
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 const LocalAcceptList: FC = () => {
   const [pageNumber, setPageNumber] = useState(0);

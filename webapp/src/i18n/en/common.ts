@@ -257,6 +257,7 @@ const navLinks = {
   archivalRents: "Archival rents",
   addLocal: "Add local",
   applications: "Rent applications",
+  menu: "Menu",
 } satisfies {
   [key in string]: string;
 };

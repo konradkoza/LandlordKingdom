@@ -5,7 +5,7 @@ import useAxiosPrivate from "@/data/useAxiosPrivate.ts";
 import { AddLocal } from "@/types/mol/Locals.ts";
 import { toast } from "@/components/ui/use-toast.ts";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export const useAddLocal = () => {
   const { api } = useAxiosPrivate();

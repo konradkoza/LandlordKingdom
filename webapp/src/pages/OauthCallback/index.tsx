@@ -4,7 +4,7 @@ import { useUserStore } from "@/store/userStore";
 import { AuthenticateResponse } from "@/types/AuthenticateResponse";
 import { FC, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const role_mapping: { [key: string]: string } = {
   ADMINISTRATOR: "admin",

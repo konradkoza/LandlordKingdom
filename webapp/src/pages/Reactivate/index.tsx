@@ -1,6 +1,6 @@
 import { useReactivateUser } from "@/data/useReactivateUser";
 import { FC, useEffect, useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 
 const Reactivate: FC = () => {
   const used = useRef(false);

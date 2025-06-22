@@ -14,7 +14,7 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { t } from "i18next";
 import { FC, useState } from "react";
 import { ChangeEndDate } from "./ChangeEndDate";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getAddressString } from "@/utils/address";
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent.tsx";
 import { RefreshCw } from "lucide-react";

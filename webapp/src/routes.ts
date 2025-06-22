@@ -1,4 +1,3 @@
-import { RouteObject } from "react-router-dom";
 import AdminLayout from "./Layouts/AdminLayout";
 import OwnerLayout from "./Layouts/OwnerLayout";
 import TenantLayout from "./Layouts/TenantLayout";
@@ -10,6 +9,7 @@ import OwnerPage from "./pages/Owner";
 import TenantPage from "./pages/Tenant";
 import AdminPage from "./pages/Admin";
 import BaseMeLayout from "./Layouts/BaseMeLayout";
+import { RouteObject } from "react-router";
 
 const UserDetailsPage = loadable(() => import("./pages/Admin/UserDetailsPage"));
 const MePage = loadable(() => import("./pages/Me"));
@@ -26,7 +26,7 @@ const VerifyAccountPage = loadable(() => import("./pages/VerifyAccount"));
 const UpdateEmailPage = loadable(() => import("./pages/UpdateEmail"));
 const ResetPasswordForm = loadable(() => import("./pages/ResetPasswordForm"));
 const Callback = loadable(() => import("./pages/OauthCallback"));
-const HomePage = loadable(() => import("./pages/Home"));
+// const HomePage = loadable(() => import("./pages/Home"));
 const CurrentRentsPage = loadable(() => import("./pages/Tenant/CurrentRents"));
 const CurrentOwnerRentsPage = loadable(
   () => import("./pages/Owner/CurrentRents")

@@ -17,7 +17,7 @@ import { TFunction } from "i18next";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router";
 import { z } from "zod";
 
 const getResetPasswordSchema = (t: TFunction) =>

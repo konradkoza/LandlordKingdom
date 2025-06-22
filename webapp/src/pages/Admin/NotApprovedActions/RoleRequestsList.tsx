@@ -16,7 +16,7 @@ import {
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent";
 import { t } from "i18next";
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const RoleRequestsList: FC = () => {
   const [pageNumber, setPageNumber] = useState(0);

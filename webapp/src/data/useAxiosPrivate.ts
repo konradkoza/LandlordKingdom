@@ -2,7 +2,7 @@ import { useUserStore } from "@/store/userStore";
 import { api } from "./api";
 import { useEffect } from "react";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "@/components/ui/use-toast";
 import { t } from "i18next";
 

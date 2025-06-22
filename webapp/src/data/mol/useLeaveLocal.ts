@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useToast } from "@/components/ui/use-toast";
 import { AxiosError } from "axios";
 import { ErrorCode } from "@/@types/errorCode";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export const useLeaveLocal = () => {
   const queryClient = useQueryClient();

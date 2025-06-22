@@ -1,7 +1,7 @@
 import { FC } from "react";
 import homeImage from "@/assets/home_image.jpg";
 import { Button } from "@/components/ui/button";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useUserStore } from "@/store/userStore";

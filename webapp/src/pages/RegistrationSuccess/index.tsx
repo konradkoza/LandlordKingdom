@@ -2,7 +2,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 const RegistrationSuccessPage: FC = () => {
   const { t } = useTranslation();

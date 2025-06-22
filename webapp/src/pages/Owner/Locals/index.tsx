@@ -13,7 +13,7 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { t } from "i18next";
 import { FC, useState } from "react";
 import { LoadingData } from "@/components/LoadingData";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router";
 import { PageChangerComponent } from "@/pages/Components/PageChangerComponent";
 import { getAddressString } from "@/utils/address";
 import {

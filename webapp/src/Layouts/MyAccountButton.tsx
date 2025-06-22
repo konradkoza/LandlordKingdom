@@ -12,7 +12,7 @@ import { useUserStore } from "@/store/userStore";
 import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { VscAccount } from "react-icons/vsc";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { UserResponse } from "@/types/user/UserResponseType";
 

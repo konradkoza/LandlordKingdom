@@ -11,7 +11,7 @@ import { useGetOwnApplications } from "@/data/tenant/useGetOwnApplications";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { RefreshCw } from "lucide-react";
 import RefreshQueryButton from "@/components/RefreshQueryButton";
 import DataField from "@/components/DataField";

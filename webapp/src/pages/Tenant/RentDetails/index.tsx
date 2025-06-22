@@ -3,7 +3,7 @@ import { useTenantRent } from "@/data/rent/useTenantRent";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router";
 import RentInformationCard from "./RentInformationCard";
 import CreateVariableFeeDialog from "./CreateVariableFeeDialog";
 import { RentPayments } from "@/components/RentPayments";

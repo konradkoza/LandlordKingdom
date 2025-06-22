@@ -17,7 +17,7 @@ import { useUpdateLocalData } from "@/data/local/useMutateOwnLocalUpdate";
 import { TFunction } from "i18next";
 import { toast } from "@/components/ui/use-toast.ts";
 import { useGetOwnLocalDetails } from "@/data/local/useGetOwnLocalDetails.ts";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
   DropdownMenu,
   DropdownMenuContent,

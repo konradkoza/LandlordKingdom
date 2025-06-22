@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router";
 import { useUserStore } from "./store/userStore";
 import SessionExpiredDialog from "./components/SessionExpiredDialog";
 import { isTokenValid } from "./utils/jwt";

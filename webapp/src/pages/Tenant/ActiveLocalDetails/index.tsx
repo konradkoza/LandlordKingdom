@@ -6,7 +6,7 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { t } from "i18next";
 import { FC } from "react";
 import { Button } from "@/components/ui/button";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
   AlertDialog,
   AlertDialogAction,
