@@ -30,10 +30,20 @@ public class DateUtils {
         return LocalDate.now().with(TemporalAdjusters.previousOrSame(firstDayOfWeek));
     }
 
+
+
     public static LocalDate getLastDayOfCurrentWeek() {
         DayOfWeek firstDayOfWeek = DayOfWeek.SUNDAY;
         DayOfWeek lastDayOfWeek = DayOfWeek.of(((firstDayOfWeek.getValue() + 5) % DayOfWeek.values().length) + 1);
         return LocalDate.now().with(TemporalAdjusters.nextOrSame(lastDayOfWeek));
+    }
+
+    public static LocalDate getFirstDayOfCurrentMonth() {
+        return LocalDate.now().withDayOfMonth(1);
+    }
+
+    public static LocalDate getLastDayOfCurrentMonth() {
+        return LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
     }
 
 }

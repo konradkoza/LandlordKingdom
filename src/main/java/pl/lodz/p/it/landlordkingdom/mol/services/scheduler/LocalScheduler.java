@@ -24,7 +24,7 @@ public class LocalScheduler {
         molSchedulerService.changeLocalState();
     }
 
-    @Scheduled(cron = "0 0 0 * * MON", zone = "UTC")
+    @Scheduled(cron = "0 0 0 1 * *", zone = "UTC")
     @PreAuthorize("permitAll()")
     public void createFixedFeeAfterEndOfWeek() {
         log.info("Applying fixed fee for all current rents");
