@@ -3,6 +3,7 @@ package pl.lodz.p.it.landlordkingdom.mol.dto;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record AddLocalRequest(
         @NotBlank(message = "Name cannot be blank")
@@ -17,6 +18,8 @@ public record AddLocalRequest(
         @DecimalMin(value = "0", message = "Margin fee has to be greater or equal to 0")
         BigDecimal marginFee,
         @DecimalMin(value = "0", message = "Rental fee has to be greater or equal to 0")
-        BigDecimal rentalFee
+        BigDecimal rentalFee,
+
+        UUID ownerId
 ) {
 }

@@ -74,6 +74,7 @@ const AdminRoutes: RouteObject[] = [
   { path: "users", Component: UserListPage },
   { path: "users/:id", Component: UserDetailsPage },
   { path: "not-approved", Component: NotApprovedActionsPage },
+  { path: "add-local", Component: AddLocalPage },
 ];
 const OwnerRoutes: RouteObject[] = [
   { index: true, Component: OwnerPage },

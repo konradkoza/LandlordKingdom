@@ -34,6 +34,7 @@ export interface AddLocal {
   marginFee: number;
   rentalFee: number;
   address: Address;
+  ownerId: string | null;
 }
 
 export interface ActiveLocals {

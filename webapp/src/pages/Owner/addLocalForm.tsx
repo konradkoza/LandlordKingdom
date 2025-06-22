@@ -18,6 +18,7 @@ import { TFunction } from "i18next";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { InputWithText } from "@/components/InputWithText";
 import LoadingButton from "@/components/LoadingButton";
+import { useSearchParams } from "react-router";
 
 const addLocalSchema = (t: TFunction) =>
   z.object({
@@ -59,7 +60,10 @@ type AddLocalFormData = z.infer<ReturnType<typeof addLocalSchema>>;
 
 const AddLocalForm: FC = () => {
   const { t } = useTranslation();
-  const { addLocal, isPending } = useAddLocal();
+  const [searchParams] = useSearchParams();
+  const ownerId = searchParams.get("ownerId") ?? null;
+  const { addLocal, isPending } = useAddLocal(ownerId !== null);
+
   const form = useForm<AddLocalFormData>({
     resolver: zodResolver(addLocalSchema(t)),
     values: {
@@ -85,11 +89,14 @@ const AddLocalForm: FC = () => {
   ]);
 
   const onSubmit: SubmitHandler<AddLocalFormData> = async (data) => {
-    await addLocal(data, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+    await addLocal(
+      { ...data, ownerId },
+      {
+        onSuccess: () => {
+          form.reset();
+        },
+      }
+    );
   };
 
   return (

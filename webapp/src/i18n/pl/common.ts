@@ -81,6 +81,7 @@ const userDetailsPage = {
     "Czy na pewno chcesz zaktualizować adres email tego użytkownika?",
   updateEmailAddressDescription:
     "Na podany adres email zostanie wysłany link do zmiany adresu email",
+  addLocal: "Dodaj lokal",
 };
 
 const updateEmailPage = {

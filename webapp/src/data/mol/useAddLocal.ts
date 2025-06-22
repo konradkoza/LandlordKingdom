@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/use-toast.ts";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
-export const useAddLocal = () => {
+export const useAddLocal = (adminNavigation: boolean = false) => {
   const { api } = useAxiosPrivate();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -24,6 +24,10 @@ export const useAddLocal = () => {
         description: t("addLocalPage.successDescription"),
       });
 
+      if (adminNavigation) {
+        navigate(`/admin/locals/local/${data.id}`);
+        return;
+      }
       navigate(`/owner/locals/local/${data.id}`);
     },
     onError: (error: AxiosError) => {

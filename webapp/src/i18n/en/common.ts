@@ -79,6 +79,7 @@ const userDetailsPage = {
     "Are you sure you want to update this user's email address?",
   updateEmailAddressDescription:
     "A link to change the email address will be sent to the given email address",
+  addLocal: "Add local",
 };
 
 const updateEmailPage = {

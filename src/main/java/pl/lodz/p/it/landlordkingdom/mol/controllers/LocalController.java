@@ -79,11 +79,8 @@ public class LocalController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMINISTRATOR')")
     public ResponseEntity<AddLocalResponse> addLocal(@RequestBody @Valid AddLocalRequest addLocalRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Jwt jwt = (Jwt) authentication.getPrincipal();
-        UUID userId = UUID.fromString(jwt.getSubject());
         try {
             Address address = new Address(
                     addLocalRequest.address().country(),
@@ -101,7 +98,7 @@ public class LocalController {
                     addLocalRequest.marginFee(),
                     addLocalRequest.rentalFee()
             );
-            return ResponseEntity.ok(LocalMapper.toGetAddLocalResponse(localService.addLocal(local, userId)));
+            return ResponseEntity.ok(LocalMapper.toGetAddLocalResponse(localService.addLocal(local, addLocalRequest.ownerId())));
         } catch (GivenAddressAssignedToOtherLocalException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
         } catch (NotFoundException e) {

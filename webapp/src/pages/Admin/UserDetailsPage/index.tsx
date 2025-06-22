@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
+import { Navigate, NavLink, useParams } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -92,6 +92,13 @@ const UserDetailsPage: FC = () => {
                 >
                   {t("updateDataForm.updateUserData")}
                 </DropdownMenuItem>
+                {data.data.roles.includes("OWNER") && (
+                  <DropdownMenuItem>
+                    <NavLink to={`/admin/add-local?ownerId=${data.data.id}`}>
+                      {t("userDetailsPage.addLocal")}
+                    </NavLink>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
             <RefreshQueryButton queryKeys={["user"]} />

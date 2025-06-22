@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,7 @@ import pl.lodz.p.it.landlordkingdom.model.LocalState;
 import pl.lodz.p.it.landlordkingdom.mol.dto.EditLocalRequest;
 import pl.lodz.p.it.landlordkingdom.mol.dto.EditLocalRequestAdmin;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.AddressRepository;
+import pl.lodz.p.it.landlordkingdom.mol.repositories.AdministratorMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.LocalRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.OwnerMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.services.LocalService;
@@ -45,11 +49,23 @@ public class LocalServiceImpl implements LocalService {
     private final AddressRepository addressRepository;
     private final SignVerifier signVerifier;
     private final OwnerMolRepository ownerRepository;
+    private final AdministratorMolRepository administratorRepository;
 
     @Override
     @Transactional(rollbackFor = {IdenticalFieldValueException.class}, propagation = Propagation.REQUIRES_NEW)
     public Local addLocal(Local local, UUID ownerId) throws GivenAddressAssignedToOtherLocalException, NotFoundException, CreationException {
-        Owner owner = ownerRepository.findByUserIdAndActiveIsTrue(ownerId).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
+        Owner owner;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        UUID callerId = UUID.fromString(jwt.getSubject());
+
+        if (ownerId != null) {
+            administratorRepository.findByUserIdAndActiveIsTrue(callerId).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
+            owner = ownerRepository.findByUserIdAndActiveIsTrue(ownerId).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
+        } else {
+            owner = ownerRepository.findByUserIdAndActiveIsTrue(callerId).orElseThrow(() -> new NotFoundException(UserExceptionMessages.NOT_FOUND, ErrorCodes.USER_NOT_FOUND));
+        }
+
         Optional<Address> existingAddress = addressRepository.findByAddress(
                 local.getAddress().getCountry(),
                 local.getAddress().getCity(),
