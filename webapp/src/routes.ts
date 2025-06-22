@@ -59,6 +59,11 @@ const LandingPage = loadable(() => import("./pages/Public"));
 
 const AddLocalPage = loadable(() => import("./pages/Owner/addLocalForm"));
 
+const TermsPage = loadable(() => import("./pages/StaticPages/Terms"));
+const CookiesPage = loadable(() => import("./pages/StaticPages/Cookies"));
+const AboutPage = loadable(() => import("./pages/StaticPages/About"));
+const ContactPage = loadable(() => import("./pages/StaticPages/Contact"));
+
 const AdminRoutes: RouteObject[] = [
   { index: true, Component: AdminPage },
   {
@@ -133,6 +138,10 @@ export const UnprotectedRoutes: RouteObject[] = [
       { index: true, Component: LandingPage },
       { path: "/tenant/locals/:id", Component: ActiveLocalDetailsPage },
       { path: "locals", Component: ActiveLocalsPage },
+      { path: "/terms", Component: TermsPage },
+      { path: "/cookies", Component: CookiesPage },
+      { path: "/about", Component: AboutPage },
+      { path: "/contact", Component: ContactPage },
     ],
   },
   { path: "/login", Component: LoginPage },
