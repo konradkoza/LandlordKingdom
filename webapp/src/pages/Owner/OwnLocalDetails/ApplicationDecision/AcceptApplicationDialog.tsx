@@ -120,9 +120,16 @@ const AcceptApplicationDialog: FC<Props> = ({ application }) => {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date.getDay() !== 0 || date < new Date()
-                          }
+                          disabled={(date) => {
+                            const nextDay = new Date(date);
+                            nextDay.setDate(date.getDate() + 1);
+                            const isLastDayOfMonth =
+                              nextDay.getMonth() !== date.getMonth();
+                            return (
+                              !isLastDayOfMonth ||
+                              date < new Date(new Date().setHours(0, 0, 0, 0))
+                            );
+                          }}
                           initialFocus
                           weekStartsOn={1}
                         />

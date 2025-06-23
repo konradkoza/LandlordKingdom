@@ -119,13 +119,51 @@ export const ChangeEndDate: FC<Props> = ({ startDate, endDate, id }) => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date.getDay() !== 0 ||
-                          date <= new Date(startDate) ||
-                          date < new Date() ||
-                          date.setHours(0, 0, 0, 0) ===
-                            new Date(endDate).setHours(0, 0, 0, 0)
-                        }
+                        disabled={(date) => {
+                          // Only enable last day of month
+                          const nextDay = new Date(date);
+                          nextDay.setDate(date.getDate() + 1);
+                          const isLastDayOfMonth =
+                            nextDay.getMonth() !== date.getMonth();
+
+                          // Normalize dates to midnight for comparison
+                          const dateMid = new Date(
+                            date.getFullYear(),
+                            date.getMonth(),
+                            date.getDate()
+                          );
+                          const start = new Date(startDate);
+                          const end = new Date(endDate);
+                          const startMid = new Date(
+                            start.getFullYear(),
+                            start.getMonth(),
+                            start.getDate()
+                          );
+                          const endMid = new Date(
+                            end.getFullYear(),
+                            end.getMonth(),
+                            end.getDate()
+                          );
+                          const today = new Date();
+                          const todayMid = new Date(
+                            today.getFullYear(),
+                            today.getMonth(),
+                            today.getDate()
+                          );
+
+                          // Compare only year, month, day for equality
+                          const isSameAsEnd =
+                            dateMid.getFullYear() === endMid.getFullYear() &&
+                            dateMid.getMonth() === endMid.getMonth() &&
+                            dateMid.getDate() === endMid.getDate();
+
+                          return (
+                            !isLastDayOfMonth ||
+                            dateMid <= startMid ||
+                            dateMid < todayMid ||
+                            isSameAsEnd
+                          );
+                        }}
                         initialFocus
                         weekStartsOn={1}
                       />

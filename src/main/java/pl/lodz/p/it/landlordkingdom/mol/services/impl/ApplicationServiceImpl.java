@@ -18,6 +18,7 @@ import pl.lodz.p.it.landlordkingdom.mol.repositories.*;
 import pl.lodz.p.it.landlordkingdom.model.Tenant;
 import pl.lodz.p.it.landlordkingdom.mol.services.ApplicationService;
 import pl.lodz.p.it.landlordkingdom.mol.services.MolEmailService;
+import pl.lodz.p.it.landlordkingdom.util.DateUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -66,7 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Rent acceptApplication(UUID applicationId, UUID ownerUserId, LocalDate endDate) throws NotFoundException, InvalidLocalState, WrongEndDateException {
         LocalDate currentDate = LocalDate.now();
         if (endDate.isBefore(currentDate)
-                || !endDate.getDayOfWeek().equals(DayOfWeek.SUNDAY) || endDate.equals(currentDate)) {
+                || endDate.getDayOfMonth() != DateUtils.getLastDayOfGivenMonth(endDate).getDayOfMonth() || endDate.equals(currentDate)) {
             throw new WrongEndDateException(RentExceptionMessages.WRONG_END_DATE, ErrorCodes.WRONG_END_DATE);
         }
 

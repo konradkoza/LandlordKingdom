@@ -46,4 +46,7 @@ public class DateUtils {
         return LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
     }
 
+    public static LocalDate getLastDayOfGivenMonth(LocalDate date) {
+        return date.with(TemporalAdjusters.lastDayOfMonth());
+    }
 }

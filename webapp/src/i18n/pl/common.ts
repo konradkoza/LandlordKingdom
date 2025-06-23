@@ -953,7 +953,155 @@ const landingPage = {
   },
 };
 
+const aboutPage = {
+  title: "O Nas",
+  description:
+    "Witamy w Landlord Kingdom, Twoim kompleksowym rozwiązaniu do zarządzania nieruchomościami. Jesteśmy oddani upraszczaniu procesu wynajmu zarówno dla właścicieli nieruchomości, jak i najemców, zapewniając płynną platformę, która wprowadza efektywność i przejrzystość do zarządzania nieruchomościami.",
+  mission: {
+    title: "Nasza Misja",
+    description:
+      "Zrewolucjonizowanie zarządzania nieruchomościami poprzez dostarczanie innowacyjnych narzędzi, które sprawiają, że procesy wynajmu są prostsze, bardziej efektywne i przejrzyste dla wszystkich zaangażowanych stron. Dążymy do zbudowania pomostu między właścicielami a najemcami poprzez technologię.",
+  },
+  vision: {
+    title: "Nasza Wizja",
+    description:
+      "Stać się wiodącą platformą zarządzania nieruchomościami, tworząc świat, w którym procesy wynajmu są płynne, relacje budowane są na zaufaniu, a zarządzanie nieruchomościami jest dostępne dla każdego.",
+  },
+  values: {
+    title: "Nasze Główne Wartości",
+    transparency:
+      "Przejrzystość - Wierzymy w otwartą komunikację i jasne procesy dla wszystkich zaangażowanych stron.",
+    reliability:
+      "Niezawodność - Nasza platforma zapewnia niezawodną usługę, na którą możesz liczyć dzień po dniu.",
+    innovation:
+      "Innowacyjność - Ciągle udoskonalamy naszą platformę za pomocą najnowocześniejszych technologii i opinii użytkowników.",
+    customerService:
+      "Obsługa Klienta - Jesteśmy zobowiązani do zapewnienia wyjątkowego wsparcia i pomocy naszym użytkownikom.",
+  },
+};
+
+const contactPage = {
+  title: "Kontakt",
+  description:
+    "Masz pytania, sugestie lub potrzebujesz więcej informacji? Skontaktuj się z nami - chętnie pomożemy!",
+  emailTitle: "E-mail",
+  emailAddress: "kontakt@twojadomena.pl",
+  phoneTitle: "Telefon",
+  phoneNumber: "+48 123 456 789",
+  phoneHours: "(Pon.-Pt. 9:00-17:00)",
+  addressTitle: "Adres korespondencyjny",
+  companyName: "Twoja Firma Sp. z o.o.",
+  street: "ul. Przykładowa 1",
+  postalCode: "00-000 Warszawa",
+};
+
+const cookiesPage = {
+  title: "Polityka plików cookies",
+  whatAreCookies: {
+    title: "Czym są pliki cookies?",
+    description:
+      'Pliki cookies (tzw. "ciasteczka") to niewielkie pliki tekstowe zapisywane na Twoim urządzeniu (komputerze, tablecie, smartfonie) podczas korzystania z naszej strony internetowej. Umożliwiają one m.in. prawidłowe działanie serwisu, analizowanie ruchu i dostosowywanie treści do Twoich preferencji.',
+  },
+  typesOfCookies: {
+    title: "Jakich cookies używamy?",
+    description:
+      "Na naszej stronie wykorzystujemy następujące rodzaje plików cookies:",
+    necessary: {
+      title: "Niezbędne",
+      description:
+        "umożliwiają prawidłowe działanie strony, np. logowanie, nawigację czy zapisanie ustawień prywatności. Nie wymagają zgody użytkownika.",
+    },
+    analytical: {
+      title: "Analityczne",
+      description:
+        "pozwalają zbierać anonimowe dane statystyczne o sposobie korzystania ze strony, np. za pomocą Google Analytics.",
+    },
+    functional: {
+      title: "Funkcjonalne",
+      description:
+        "zapamiętują Twoje preferencje (np. język, lokalizację) w celu poprawy komfortu korzystania.",
+    },
+  },
+  manageCookies: {
+    title: "Jak zarządzać plikami cookies?",
+    description:
+      "Podczas pierwszej wizyty na naszej stronie pojawia się baner z informacją o plikach cookies. Masz możliwość:",
+    acceptAll: "zaakceptowania wszystkich cookies,",
+    rejectOptional: "odrzucenia ich z wyjątkiem niezbędnych",
+    changeSettings:
+      "W każdej chwili możesz zmienić swoje ustawienia cookies, klikając",
+    here: "tutaj",
+    orBrowser: "lub zmieniając ustawienia w swojej przeglądarce.",
+  },
+  policyChanges: {
+    title: "Zmiany w polityce cookies",
+    description:
+      "Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej polityce. Aktualna wersja zawsze będzie dostępna na tej stronie.",
+  },
+  contact: {
+    title: "Kontakt",
+    description:
+      "W przypadku pytań dotyczących polityki cookies, skontaktuj się z nami pod adresem:",
+    email: "[adres e-mail kontaktowy]",
+  },
+};
+
+const termsPage = {
+  title: "Regulamin korzystania z serwisu",
+  section1: {
+    title: "§1 Postanowienia ogólne",
+    paragraph1:
+      "Niniejszy regulamin określa zasady korzystania z serwisu internetowego [TwojaNazwa.pl].",
+    paragraph2:
+      "Każdy użytkownik korzystający z serwisu akceptuje warunki określone w niniejszym regulaminie.",
+    paragraph3:
+      "Właścicielem serwisu jest [Nazwa firmy / osoby fizycznej], z siedzibą w [adres], NIP: [numer].",
+  },
+  section2: {
+    title: "§2 Zasady korzystania",
+    point1:
+      "Serwis jest dostępny dla wszystkich użytkowników bez konieczności rejestracji.",
+    point2:
+      "Użytkownik zobowiązuje się do korzystania z serwisu zgodnie z obowiązującym prawem oraz dobrymi obyczajami.",
+    point3: {
+      main: "Zabronione jest:",
+      sub1: "podejmowanie działań, które mogą zakłócić działanie serwisu,",
+      sub2: "publikowanie treści o charakterze bezprawnym, obraźliwym lub spamerskim,",
+      sub3: "wykorzystywanie treści ze strony bez zgody właściciela.",
+    },
+  },
+  section3: {
+    title: "§3 Prawa autorskie",
+    paragraph1:
+      "Wszelkie treści, grafiki, zdjęcia i materiały opublikowane na stronie są chronione prawem autorskim.",
+    paragraph2:
+      "Kopiowanie, rozpowszechnianie lub wykorzystywanie ich w celach komercyjnych bez zgody właściciela jest zabronione.",
+  },
+  section4: {
+    title: "§4 Odpowiedzialność",
+    paragraph1:
+      "Właściciel serwisu dokłada starań, aby informacje zawarte na stronie były aktualne i poprawne, ale nie ponosi odpowiedzialności za ich wykorzystanie przez użytkowników.",
+    paragraph2:
+      "Serwis może zawierać linki do zewnętrznych stron – właściciel nie ponosi odpowiedzialności za ich treść.",
+  },
+  section5: {
+    title: "§5 Zmiany regulaminu",
+    paragraph1:
+      "Właściciel zastrzega sobie prawo do wprowadzania zmian w regulaminie w dowolnym czasie.",
+    paragraph2: "Zmiany wchodzą w życie z dniem ich publikacji na stronie.",
+  },
+  section6: {
+    title: "§6 Kontakt",
+    paragraph:
+      "W razie pytań dotyczących regulaminu prosimy o kontakt: [adres e-mail kontaktowy]",
+  },
+};
+
 export default {
+  aboutPage,
+  contactPage,
+  cookiesPage,
+  termsPage,
   uploadImage,
   localReport,
   rentDetailsPage,

@@ -20,6 +20,7 @@ import pl.lodz.p.it.landlordkingdom.mol.repositories.AdministratorMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.RentRepository;
 import pl.lodz.p.it.landlordkingdom.mol.repositories.TenantMolRepository;
 import pl.lodz.p.it.landlordkingdom.mol.services.RentService;
+import pl.lodz.p.it.landlordkingdom.util.DateUtils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -65,7 +66,7 @@ public class RentServiceImpl implements RentService {
         }
 
         if (newEndDate.isBefore(LocalDate.now())
-                || !newEndDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                || newEndDate.getDayOfMonth() != DateUtils.getLastDayOfGivenMonth(newEndDate).getDayOfMonth()
                 || newEndDate.equals(rent.getEndDate())) {
             throw new WrongEndDateException(RentExceptionMessages.WRONG_END_DATE, ErrorCodes.WRONG_END_DATE);
         }

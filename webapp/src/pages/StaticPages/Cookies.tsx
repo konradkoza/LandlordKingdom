@@ -1,69 +1,64 @@
 import CookiesDialog from "@/components/CookiesDialog";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const CookiesPage: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
       <div>
-        <h1 className="my-6 text-5xl font-semibold">Polityka plików cookies</h1>
-        <h2 className="my-2 text-3xl">Czym są pliki cookies?</h2>
-        <p>
-          Pliki cookies (tzw. „ciasteczka”) to niewielkie pliki tekstowe
-          zapisywane na Twoim urządzeniu (komputerze, tablecie, smartfonie)
-          podczas korzystania z naszej strony internetowej. Umożliwiają one
-          m.in. prawidłowe działanie serwisu, analizowanie ruchu i
-          dostosowywanie treści do Twoich preferencji.
-        </p>
-        <h2 className="my-2 text-3xl">Jakich cookies używamy?</h2>
-        <p>
-          Na naszej stronie wykorzystujemy następujące rodzaje plików cookies:
-        </p>
+        <h1 className="my-6 text-5xl font-semibold">
+          {t("cookiesPage.title")}
+        </h1>
+        <h2 className="my-2 text-3xl">
+          {t("cookiesPage.whatAreCookies.title")}
+        </h2>
+        <p>{t("cookiesPage.whatAreCookies.description")}</p>
+        <h2 className="my-2 text-3xl">
+          {t("cookiesPage.typesOfCookies.title")}
+        </h2>
+        <p>{t("cookiesPage.typesOfCookies.description")}</p>
         <ul>
           <li>
-            <strong>Niezbędne</strong> - umożliwiają prawidłowe działanie
-            strony, np. logowanie, nawigację czy zapisanie ustawień prywatności.
-            Nie wymagają zgody użytkownika.
+            <strong>{t("cookiesPage.typesOfCookies.necessary.title")}</strong> -{" "}
+            {t("cookiesPage.typesOfCookies.necessary.description")}
           </li>
           <li>
-            <strong>Analityczne</strong> - pozwalają zbierać anonimowe dane
-            statystyczne o sposobie korzystania ze strony, np. za pomocą Google
-            Analytics.
+            <strong>{t("cookiesPage.typesOfCookies.analytical.title")}</strong>{" "}
+            - {t("cookiesPage.typesOfCookies.analytical.description")}
           </li>
           <li>
-            <strong>Funkcjonalne</strong> - zapamiętują Twoje preferencje (np.
-            język, lokalizację) w celu poprawy komfortu korzystania.
+            <strong>{t("cookiesPage.typesOfCookies.functional.title")}</strong>{" "}
+            - {t("cookiesPage.typesOfCookies.functional.description")}
           </li>
         </ul>
-        <h2 className="my-2 text-3xl">Jak zarządzać plikami cookies?</h2>
-        <p>
-          Podczas pierwszej wizyty na naszej stronie pojawia się baner z
-          informacją o plikach cookies. Masz możliwość:
-        </p>
+        <h2 className="my-2 text-3xl">
+          {t("cookiesPage.manageCookies.title")}
+        </h2>
+        <p>{t("cookiesPage.manageCookies.description")}</p>
         <ul className="list-disc pl-5">
-          <li>zaakceptowania wszystkich cookies,</li>
-          <li>odrzucenia ich z wyjątkiem niezbędnych</li>
+          <li>{t("cookiesPage.manageCookies.acceptAll")}</li>
+          <li>{t("cookiesPage.manageCookies.rejectOptional")}</li>
         </ul>
         <p>
-          W każdej chwili możesz zmienić swoje ustawienia cookies, klikając{" "}
+          {t("cookiesPage.manageCookies.changeSettings")}{" "}
           <button onClick={() => setIsOpen(true)}>
-            <strong>tutaj</strong>
+            <strong>{t("cookiesPage.manageCookies.here")}</strong>
           </button>{" "}
-          lub zmieniając ustawienia w swojej przeglądarce.
+          {t("cookiesPage.manageCookies.orBrowser")}
         </p>
-        <h2 className="my-2 text-3xl">Zmiany w polityce cookies</h2>
+        <h2 className="my-2 text-3xl">
+          {t("cookiesPage.policyChanges.title")}
+        </h2>
+        <p>{t("cookiesPage.policyChanges.description")}</p>
+        <h2 className="my-2 text-3xl">{t("cookiesPage.contact.title")}</h2>
         <p>
-          Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej polityce.
-          Aktualna wersja zawsze będzie dostępna na tej stronie.
-        </p>
-        <h2 className="my-2 text-3xl">Kontakt</h2>
-        <p>
-          W przypadku pytań dotyczących polityki cookies, skontaktuj się z nami
-          pod adresem:{" "}
-          <a href="mailto:[adres e-mail kontaktowy]">
-            [adres e-mail kontaktowy]
-          </a>
+          {t("cookiesPage.contact.description")}{" "}
+          <span className="font-semibold">
+            {t("cookiesPage.contact.email")}
+          </span>
           .
         </p>
       </div>

@@ -40,7 +40,6 @@ public class Rent extends AbstractEntity {
 
     @Column(name = "end_date", nullable = false)
     @Setter
-    @ValidEndDate
     private LocalDate endDate;
 
     @Column(name = "balance", nullable = false, precision = 10, scale = 2)
